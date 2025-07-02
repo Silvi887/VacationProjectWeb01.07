@@ -11,7 +11,7 @@ namespace VacationApp.ViewModels.Vacation
     {
 
         [Key]
-        public int IdReservation { get; set; }
+        public string IdReservation { get; set; }
 
 
         [Required]
@@ -50,6 +50,10 @@ namespace VacationApp.ViewModels.Vacation
 
         [Required]
         public string HotelId { get; set; }
+
+        [Required]
+        public string HotelName { get; set; } = "";
+
         [Required]
         public string RoomId { get; set; }
 

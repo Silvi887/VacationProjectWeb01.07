@@ -21,7 +21,7 @@ namespace VacationAdd.Data
         public DbSet<Town> Towns { get; set; } = null!;
         public DbSet<Hotel> Hotels { get; set; } = null!;
 
-        public DbSet<Room> Rooms { get; set; } = null!;
+        public DbSet<Room> Rooms { get; set; } =  null!;
 
         public DbSet<Reservation> Reservations { get; set; }
 

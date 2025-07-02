@@ -124,39 +124,38 @@ namespace BookVacation.Controllers
             }
         }
        
-        [HttpGet]
-        public async Task<IActionResult> Delete(string id)
-        {
-            int id1 = int.Parse(id);
-            var UserId = this.GetUserId();
+        //[HttpGet]
+        //public async Task<IActionResult> Delete(string id)
+        //{
+        //    int id1 = int.Parse(id);
+        //    var UserId = this.GetUserId();
 
-            bool isccess= await vacationService.DeleteReservation(UserId, id1);
+        //    bool isccess= await vacationService.DeleteReservation(UserId, id1);
 
-            if (!isccess)
-            {
-                return View(nameof(Index));
-            }
-            return View("Views/Vacation/AllReservations.cshtml", currentreservation);
-        }
+        //    if (!isccess)
+        //    {
+        //        return View(nameof(Index));
+        //    }
+        //    return View("Views/Vacation/AllReservations.cshtml", currentreservation);
+        //}
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
             int id1 =int.Parse(id);
             var UserId = this.GetUserId();
-            AddReservation currentreservation = await vacationService.GetForEditReservation(id1, UserId);
+            EditReservation currentreservation = await vacationService.GetForEditReservation(id1, UserId);
             currentreservation.roomdrp = (IEnumerable<RoomViewModel>)await this.vacationService.RoomViewDataAsync();
 
             if (this.ModelState.IsValid)
             {
-                return View("Views/Vacation/AddReservation.cshtml", currentreservation);
+                return View("Views/Vacation/Edit.cshtml", currentreservation);
             }
 
                 return View(nameof(Index));
         }
 
         [HttpPost]
-
         public async Task<IActionResult> Edit(EditReservation reservationmodel)
         {
 
@@ -173,16 +172,17 @@ namespace BookVacation.Controllers
                  bool editreservation = await vacationService
                                             .EditReservation(userid, reservationmodel);
 
+                reservationmodel.roomdrp = (IEnumerable<RoomViewModel>)await this.vacationService.RoomViewDataAsync();
 
                 if (editreservation == false)
                 {
-                 return View("Views/Vacation/EditReservation.cshtml", reservationmodel);
+                 return View("Views/Vacation/Edit.cshtml", reservationmodel);
                 }
 
-                reservationmodel.roomdrp = (IEnumerable<RoomViewModel>)await this.vacationService.RoomViewDataAsync();
+              
 
                 ViewBag.SuccessMessage = "Successful update of reservation!";
-                return View("Views/Vacation/EditReservation.cshtml",reservationmodel);
+                return View("Views/Vacation/Edit.cshtml",reservationmodel);
             }
             catch (Exception ex)
             {

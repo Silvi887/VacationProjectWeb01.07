@@ -24,7 +24,7 @@ namespace VacationApp.Services.Core.Interface
         Task<IEnumerable<AllReservationsViewModel>> GetAllReservations(string? Userid);
 
 
-        Task<AddReservation> GetForEditReservation(int? id, string? Userid);
+        Task<EditReservation> GetForEditReservation(int? id, string? Userid);
         Task<bool> EditReservation(string UserId, EditReservation editreservation);
 
         //Task<AddReservation> GetForDeleteReservation(int? id, string? Userid);

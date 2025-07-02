@@ -111,12 +111,12 @@ namespace VacationApp.Services.Core
             }
         }
 
-        public  async Task<AddReservation> GetForEditReservation(int? id, string? Userid)
+        public  async Task<EditReservation> GetForEditReservation(int? id, string? Userid)
         {
 
 
            IdentityUser? currentUser =await userManager.FindByIdAsync(Userid);
-            AddReservation reservation1 = null;
+            EditReservation reservation1 = null;
 
             if (currentUser != null)
             {
@@ -124,11 +124,11 @@ namespace VacationApp.Services.Core
                 Reservation? curentreservation = await Dbcontext.Reservations.Include(r => r.Hotel)
 
                     .FirstOrDefaultAsync(r => r.IdReservation == id);
-                                                       
-                 reservation1 = new AddReservation()
+
+                reservation1 = new EditReservation()
                 {
 
-
+                    IdReservation = curentreservation.IdReservation.ToString(),
                     StartDate = curentreservation.StartDate.ToString("yyyy-MM-dd"),
 
                     EndDate = curentreservation.StartDate.ToString("yyyy-MM-dd"),
@@ -138,7 +138,7 @@ namespace VacationApp.Services.Core
 
                     RoomId = curentreservation.RoomId.ToString(),
                     HotelId = curentreservation.HotelId.ToString(),
-                    HotelName= curentreservation.Hotel.HotelName,
+                    HotelName = curentreservation.Hotel.HotelName,
                     GuestFirstName = curentreservation.FirstName,
                     LastNameG = curentreservation.LastName,
                     DateofBirth = curentreservation.DateOfBirth.ToString("yyyy-MM-dd"),
@@ -163,9 +163,9 @@ namespace VacationApp.Services.Core
             bool resultReservation = false;
 
             Reservation? CurrentReservation = await Dbcontext.Reservations
-                                    .FindAsync(editreservation.IdReservation);
+                                    .FindAsync(int.Parse(editreservation.IdReservation));
 
-            Room? Room = await Dbcontext.Rooms.FindAsync(editreservation.RoomId);
+            Room? Room = await Dbcontext.Rooms.FindAsync(int.Parse(editreservation.RoomId));
 
 
             if (userid != null && CurrentReservation != null)
