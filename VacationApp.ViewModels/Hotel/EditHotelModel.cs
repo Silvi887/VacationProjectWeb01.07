@@ -1,22 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vacation.GConstants;
 
-namespace VacationAdd.Data.Models
+namespace VacationApp.ViewModels.Hotel
 {
-    public class Hotel
+    public class EditHotelModel
     {
 
-        [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdHotel { get; set; }
-
+        public string idhotel { get; set; }
 
         [Required]
         [MaxLength(ValidationConstants.HotelMaxLenght)]
@@ -43,21 +38,10 @@ namespace VacationAdd.Data.Models
         [Required]
         public int IDManager { get; set; }
 
-        [ForeignKey(nameof(IDManager))]
-        public virtual IdentityUser Manager { get; set; }=null!;
+        //[ForeignKey(nameof(IDManager))]
+        //public virtual IdentityUser Manager { get; set; } = null!;
 
 
-        [Required]
-        public int TownId { get; set; }
-
-        [ForeignKey(nameof(TownId))]
-        public virtual Town Town { get; set; } = null!;
-
-        public virtual ICollection<Reservation>  Reservations {get;set;}=new HashSet<Reservation>();
-
-    
-
-
-
+        public IEnumerable<TownModel> ListTowns { get; set; }
     }
 }

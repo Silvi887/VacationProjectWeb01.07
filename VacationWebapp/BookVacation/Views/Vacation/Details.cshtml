@@ -44,31 +44,31 @@
             <p class="card-text"><small class="text-muted"></small></p>
             <hr />
         </div>
-       @*  <div class="card-footer text-center">
+        <div class="card-footer text-center">
             <div class="d-flex justify-content-between align-items-center">
                 <a asp-controller="Destination" asp-action="Index" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
-                @if (User?.Identity?.IsAuthenticated == true && !Model.IsGuest && !Model.IsInUserFavorite ) 
+                @if (User?.Identity?.IsAuthenticated == true && !Model.IsManager && !Model.IsSaved)
                 {
                     <form asp-controller="Destination" asp-action="AddToFavorites" method="post" class="d-flex justify-content-center align-items-center flex-fill mx-1">
-                        <input type="hidden" name="id" value="@Model.Id" />
+                        <input type="hidden" name="id" value="@Model.IdHotel" />
                         <button type="submit" class="btn btn-success w-100">
                             <i class="fas fa-heart"></i> Add to Favorites
                         </button>
                     </form>
                 }
-                @if (Model.IsUserPublisher)
+                @if (Model.IsManager)
                 {
-                    <a asp-controller="Destination" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
+                    <a asp-controller="Destination" asp-action="Edit" asp-route-id="@Model.IdHotel" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
                         <i class="fas fa-edit"></i> Edit
                     </a>
-                    <a asp-controller="Destination" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
+                    <a asp-controller="Destination" asp-action="Delete" asp-route-id="@Model.IdHotel" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
                         <i class="fas fa-trash"></i> Delete
                     </a>
                 }
             </div>
-        </div>  *@
+        </div> 
     </div>
 </div>
 

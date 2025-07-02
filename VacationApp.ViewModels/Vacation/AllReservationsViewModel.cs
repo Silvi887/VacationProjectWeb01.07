@@ -25,7 +25,9 @@ namespace VacationApp.ViewModels.Vacation
         [Required]
         public bool IsUserGuest { get; set; }
 
-      
+        public bool IsManager { get; set; }
+
+
 
     }
 }

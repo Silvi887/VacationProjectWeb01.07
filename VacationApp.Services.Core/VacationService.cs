@@ -122,8 +122,7 @@ namespace VacationApp.Services.Core
             {
 
                 Reservation? curentreservation = await Dbcontext.Reservations.Include(r => r.Hotel)
-
-                    .FirstOrDefaultAsync(r => r.IdReservation == id);
+                                              .FirstOrDefaultAsync(r => r.IdReservation == id);
 
                 reservation1 = new EditReservation()
                 {

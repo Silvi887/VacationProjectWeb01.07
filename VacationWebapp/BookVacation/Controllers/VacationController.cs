@@ -58,7 +58,7 @@ namespace BookVacation.Controllers
             {
 
                 string[] ArrHotelName = id.Split(',');
-
+                
                // int idhotel1 = int.Parse(id);
                 AddReservation inAddReservation = new AddReservation()
                 {

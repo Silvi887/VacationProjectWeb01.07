@@ -61,6 +61,7 @@ namespace VacationApp.ViewModels.Vacation
         [Required]
         public string HotelName { get; set; } = "";
 
+        
         public IEnumerable<RoomViewModel> roomdrp = null!;
 
     }
