@@ -11,7 +11,7 @@ namespace VacationApp.ViewModels.Hotel
     public class EditHotelModel
     {
 
-        public string idhotel { get; set; }
+        public string Idhotel { get; set; }
 
         [Required]
         [MaxLength(ValidationConstants.HotelMaxLenght)]
@@ -36,7 +36,7 @@ namespace VacationApp.ViewModels.Hotel
 
 
         [Required]
-        public int IDManager { get; set; }
+        public string IDManager { get; set; } = null!;
 
         //[ForeignKey(nameof(IDManager))]
         //public virtual IdentityUser Manager { get; set; } = null!;

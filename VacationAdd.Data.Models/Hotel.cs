@@ -41,7 +41,7 @@ namespace VacationAdd.Data.Models
 
 
         [Required]
-        public int IDManager { get; set; }
+        public string IDManager { get; set; } = null!;
 
         [ForeignKey(nameof(IDManager))]
         public virtual IdentityUser Manager { get; set; }=null!;

@@ -22,6 +22,29 @@ namespace VacationApp.Services.Core
             this.UserManager = usermanager;
         }
 
+        //public  async  Task<bool> AddHotel(string Userid, AddHotel hotelmodel)
+        //{
+
+        //    try
+        //    {
+
+        //        bool operationResult = false;
+        //        IdentityUser? user1 = await this.UserManager.FindByIdAsync(Userid);
+
+
+        //        var currenthotel = dbcontext.Hotels.SingleOrDefaultAsync(h => h.IdHotel == int.Parse(hotelmodel.Idhotel));
+
+        //    }
+
+
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.ToString());
+        //        throw;
+        //    }
+        //    throw new NotImplementedException();
+        //}
+
         public async Task<bool> AddHotelModel(string Userid, AddHotel hotelmodel)
         {
 
@@ -41,7 +64,7 @@ namespace VacationApp.Services.Core
                         NumberofRooms = hotelmodel.NumberofRooms,
                         ImageUrl = hotelmodel.ImageUrl,
                         HotelInfo = hotelmodel.HotelInfo,
-                        IDManager = int.Parse(user1.Id)
+                        IDManager = user1.Id
 
                     };
                     this.dbcontext.AddAsync(currenthotel);
@@ -63,31 +86,63 @@ namespace VacationApp.Services.Core
     //  throw new NotImplementedException();
 }
 
-        public Task<bool> EditHotel(string UserId, EditHotelModel edithotelmodel)
+        public async Task<bool> EditHotel(string UserId, EditHotelModel edithotelmodel)
         {
-            throw new NotImplementedException();
+
+            bool isValidhotelop = false;
+            IdentityUser? currentUser= await UserManager.FindByIdAsync(UserId);
+            Hotel? currenthotel = await  dbcontext.Hotels
+                                    .FirstOrDefaultAsync(h => h.IdHotel == int.Parse(edithotelmodel.Idhotel));
+
+            if (currentUser != null)
+            {
+
+                currenthotel.HotelName = edithotelmodel.HotelName;
+                currenthotel.Stars = edithotelmodel.Stars;
+                currenthotel.NumberofRooms = edithotelmodel.NumberofRooms;
+                //currenthotel.IdHotel = int.Parse(edithotelmodel.Idhotel);
+                currenthotel.IDManager = edithotelmodel.IDManager;
+
+
+                isValidhotelop = true;
+            }
+
+            dbcontext.SaveChanges();
+
+
+            return isValidhotelop;
         }
 
-        public async Task<EditReservation> GetForEditHotel( string? Userid, EditHotelModel hotelmodel)
+        public async Task<EditHotelModel> GetForEditHotel( string? Userid, int? id)
         {
 
 
             IdentityUser? currentUser = await UserManager.FindByIdAsync(Userid);
+            Hotel? currenthotel = await dbcontext.Hotels.Include(h=> h.Manager)
+                                        .FirstOrDefaultAsync(h => h.IdHotel == id);
 
             EditHotelModel edithotelmodel = null;
             if(currentUser != null)
             {
-                Hotel? currenthotel = await dbcontext.Hotels.AsNoTracking()
-                                        .FirstOrDefaultAsync(h=> h.IdHotel== int.Parse(hotelmodel.idhotel));
 
-                currenthotel.HotelName = hotelmodel.HotelName;
-                currenthotel.Stars = hotelmodel.Stars;
-                currenthotel.NumberofRooms = hotelmodel.NumberofRooms;
-                currenthotel.IdHotel = int.Parse(hotelmodel.idhotel);
-                    currenthotel.IDManager= int.Parse(currentUser.Id),
+                edithotelmodel = new EditHotelModel()
+                {
+                    HotelName = currenthotel.HotelName,
+                    Stars = currenthotel.Stars,
+                    NumberofRooms = currenthotel.NumberofRooms,
+                    Idhotel = currenthotel.IdHotel.ToString(),
+                    IDManager = currenthotel.IDManager
+
+
+                };
 
             }
 
+            return edithotelmodel;
+        }
+
+        public Task<EditHotelModel> GetForEditHotel(int? id, string? Userid)
+        {
             throw new NotImplementedException();
         }
 

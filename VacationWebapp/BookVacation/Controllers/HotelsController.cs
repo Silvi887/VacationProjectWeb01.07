@@ -31,27 +31,31 @@ namespace BookVacation.Controllers
 
 
         [HttpGet]
-        public  async Task<IActionResult> AddHotel(){
+        public  async Task<IActionResult> AddHotel()
+        {
 
-            try{
+
+            string? UserId = this.GetUserId();
+            try
+            {
 
                 AddHotel addhotel = new AddHotel()
                 {
 
-                    // HotelName { get; set; } = null!;
+                    HotelName = "",
 
                     //Stars { get; set; }
 
                     //NumberofRooms { get; set; }
 
-                    //ImageUrl { get; set; }
+                    ImageUrl = "",
 
                     //HotelInfo { get; set; } = null!;
-
-                    //IDManager { get; set; }
+                    ListTowns = (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync(),
+                    IDManager = UserId
                 };
 
-                addhotel.ListTowns = (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync();
+                
 
 
                 return View("Views/Vacation/AddHotel.cshtml", addhotel);
@@ -66,8 +70,6 @@ namespace BookVacation.Controllers
 
         }
 
-
-
         [HttpPost]
         public async Task<IActionResult> AddHotel(AddHotel viewModelhotel)
         {
@@ -80,9 +82,9 @@ namespace BookVacation.Controllers
                     return this.RedirectToAction(nameof(Index));
                 }
 
-                bool isvalid= await hotelService.AddHotelModel(UserId, viewModelhotel);
+                bool isvalid = await hotelService.AddHotelModel(UserId, viewModelhotel);
 
-                if(isvalid == false)
+                if (isvalid == false)
                 {
 
                     ModelState.AddModelError(string.Empty, "Fatal error accure while adding a hotel!");
@@ -90,8 +92,8 @@ namespace BookVacation.Controllers
                 }
 
                 viewModelhotel.ListTowns = (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync();
-                ViewBag.SuccessMessage = "Successful reservation!";
-                return View("Views/Vacation/AddReservation.cshtml", viewModelhotel);
+                ViewBag.SuccessMessage = "Successful addes hotel!";
+                return View("Views/Vacation/Index.cshtml", viewModelhotel);
             }
             catch (Exception ex)
             {
@@ -100,6 +102,74 @@ namespace BookVacation.Controllers
 
             }
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+
+            int id1 = int.Parse(id);
+            var UserId = this.GetUserId();
+
+            try
+            {
+                EditHotelModel hotelMode =await hotelService.GetForEditHotel(id1, UserId);
+
+                if (!this.ModelState.IsValid)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return View("Views/Hotel/EditHotelModel.cshtml", hotelMode);
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return RedirectToAction(nameof(Index));
+
+            }
+
+            throw new Exception();
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(EditHotelModel hotelnmodel)
+        {
+
+
+            var UserId = this.GetUserId();
+            try
+            {
+
+                bool isvalidhotel= await hotelService.EditHotel(UserId, hotelnmodel);
+
+                hotelnmodel.ListTowns= (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync();
+
+                if (!ModelState.IsValid)
+                {
+                    return View("Views/Hotel/EditHotelModel.cshtml", hotelnmodel);
+                }
+
+
+                ViewBag.SuccessMessage = "Successful update of hotel!";
+                return View("Views/Hotel/EditHotelModel.cshtml", hotelnmodel);
+            }
+
+            catch (Exception ex)
+            {
+
+
+                Console.WriteLine(ex.Message);
+                return RedirectToAction(nameof(Index));
+
+            }
+
+            throw new Exception();
+        }
+
+       
 
 
     }

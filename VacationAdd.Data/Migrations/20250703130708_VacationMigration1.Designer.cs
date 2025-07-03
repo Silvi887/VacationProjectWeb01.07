@@ -12,8 +12,8 @@ using VacationAdd.Data;
 namespace VacationAdd.Data.Migrations
 {
     [DbContext(typeof(VacationAddDbContext))]
-    [Migration("20250629213124_MigrationVacation1")]
-    partial class MigrationVacation1
+    [Migration("20250703130708_VacationMigration1")]
+    partial class VacationMigration1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -245,6 +245,10 @@ namespace VacationAdd.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("IDManager")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -258,6 +262,8 @@ namespace VacationAdd.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("IdHotel");
+
+                    b.HasIndex("IDManager");
 
                     b.HasIndex("TownId");
 
@@ -432,11 +438,19 @@ namespace VacationAdd.Data.Migrations
 
             modelBuilder.Entity("VacationAdd.Data.Models.Hotel", b =>
                 {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Manager")
+                        .WithMany()
+                        .HasForeignKey("IDManager")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("VacationAdd.Data.Models.Town", "Town")
                         .WithMany("Hotels")
                         .HasForeignKey("TownId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Manager");
 
                     b.Navigation("Town");
                 });

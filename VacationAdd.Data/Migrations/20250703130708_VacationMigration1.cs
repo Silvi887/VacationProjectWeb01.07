@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VacationAdd.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class MigrationVacation1 : Migration
+    public partial class VacationMigration1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -193,11 +193,18 @@ namespace VacationAdd.Data.Migrations
                     NumberofRooms = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HotelInfo = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
+                    IDManager = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TownId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Hotels", x => x.IdHotel);
+                    table.ForeignKey(
+                        name: "FK_Hotels_AspNetUsers_IDManager",
+                        column: x => x.IDManager,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Hotels_Towns_TownId",
                         column: x => x.TownId,
@@ -313,6 +320,11 @@ namespace VacationAdd.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Hotels_IDManager",
+                table: "Hotels",
+                column: "IDManager");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Hotels_TownId",
                 table: "Hotels",
                 column: "TownId");
@@ -366,13 +378,13 @@ namespace VacationAdd.Data.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Hotels");
 
             migrationBuilder.DropTable(
                 name: "Rooms");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Towns");

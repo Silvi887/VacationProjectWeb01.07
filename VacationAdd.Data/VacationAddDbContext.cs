@@ -41,8 +41,13 @@ namespace VacationAdd.Data
                 .WithMany(e => e.Hotels)
                 .HasForeignKey(e => e.TownId)
                 .OnDelete(DeleteBehavior.Restrict);
-               
-                
+
+
+                entity.HasOne(h => h.Manager)
+                .WithMany()
+                .HasForeignKey(h => h.IDManager)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             });
 

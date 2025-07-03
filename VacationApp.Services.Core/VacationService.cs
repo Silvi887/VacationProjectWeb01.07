@@ -170,7 +170,6 @@ namespace VacationApp.Services.Core
             if (userid != null && CurrentReservation != null)
             {
 
-
                 CurrentReservation.StartDate =
                     DateTime.ParseExact(editreservation.StartDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None);
                 CurrentReservation.AdultsCount = editreservation.AdultsCount;

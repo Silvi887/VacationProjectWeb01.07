@@ -85,7 +85,6 @@ namespace BookVacation.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> Add(AddReservation inAddReservation)
         {
             try

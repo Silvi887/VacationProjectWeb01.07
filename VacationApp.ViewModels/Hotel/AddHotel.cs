@@ -15,7 +15,7 @@ namespace VacationApp.ViewModels.Hotel
     {
 
 
-        string Idhotel { get; set; }
+       // public string Idhotel { get; set; }
 
         [Required]
         [MaxLength(ValidationConstants.HotelMaxLenght)]
@@ -36,16 +36,19 @@ namespace VacationApp.ViewModels.Hotel
         [Required]
         [MaxLength(ValidationConstants.DescriptionMaxLenght)]
         [MinLength(ValidationConstants.DescriptionMinLenght)]
-        public string HotelInfo { get; set; } = null!;
+        public string HotelInfo { get; set; } = "";
 
 
         [Required]
-        public int IDManager { get; set; }
+        public string IDManager { get; set; } = "";
+
+        [Required]
+        public string TownId { get; set; } = "";
 
         //[ForeignKey(nameof(IDManager))]
         //public virtual IdentityUser Manager { get; set; } = null!;
 
 
-     public IEnumerable<TownModel> ListTowns { get; set; }
+        public IEnumerable<TownModel> ListTowns { get; set; } = null!;
     }
 }

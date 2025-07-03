@@ -16,8 +16,10 @@ namespace VacationApp.Services.Core.Interface
        
         Task<IEnumerable<TownModel>> TownViewDataAsync();
 
-        Task<EditReservation> GetForEditHotel(int? id, string? Userid);
+        Task<EditHotelModel> GetForEditHotel(int? id, string? Userid);
         Task<bool> EditHotel(string UserId, EditHotelModel edithotelmodel);
+
+        //Task<bool> AddHotel(string Userid, AddHotel hotelmodel);
 
         //Task<bool> EditHotelModel(string Userid, AddReservation reservationmodel);
 

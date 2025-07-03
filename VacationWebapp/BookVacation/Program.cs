@@ -35,6 +35,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IVacationService, VacationService>();
+builder.Services.AddScoped<IHotelService, HotelService>();
 
 
 
