@@ -64,10 +64,11 @@ namespace VacationApp.Services.Core
                         NumberofRooms = hotelmodel.NumberofRooms,
                         ImageUrl = hotelmodel.ImageUrl,
                         HotelInfo = hotelmodel.HotelInfo,
-                        IDManager = user1.Id
+                        IDManager = user1.Id,
+                        TownId= int.Parse(hotelmodel.TownId)
 
                     };
-                    this.dbcontext.AddAsync(currenthotel);
+                    this.dbcontext.Hotels.AddAsync(currenthotel);
                     this.dbcontext.SaveChanges();
 
                     operationResult = true;

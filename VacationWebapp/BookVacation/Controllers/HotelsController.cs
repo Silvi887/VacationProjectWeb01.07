@@ -77,10 +77,13 @@ namespace BookVacation.Controllers
             {
 
                 string? UserId = this.GetUserId();
-                if (!this.ModelState.IsValid)
-                {
-                    return this.RedirectToAction(nameof(Index));
-                }
+                viewModelhotel.ListTowns = (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync();
+
+
+                //if (!this.ModelState.IsValid)
+                //{
+                //    return this.RedirectToAction(nameof(Index));
+                //}
 
                 bool isvalid = await hotelService.AddHotelModel(UserId, viewModelhotel);
 
@@ -93,7 +96,11 @@ namespace BookVacation.Controllers
 
                 viewModelhotel.ListTowns = (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync();
                 ViewBag.SuccessMessage = "Successful addes hotel!";
-                return View("Views/Vacation/Index.cshtml", viewModelhotel);
+
+
+
+                return RedirectToAction(nameof(Index),"Vacation");
+                //return View("Views/Vacation/Index.cshtml", viewModelhotel);
             }
             catch (Exception ex)
             {

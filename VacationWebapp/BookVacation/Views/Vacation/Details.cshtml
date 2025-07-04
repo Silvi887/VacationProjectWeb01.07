@@ -46,7 +46,7 @@
         </div>
         <div class="card-footer text-center">
             <div class="d-flex justify-content-between align-items-center">
-                <a asp-controller="Destination" asp-action="Index" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">
+                <a asp-controller="Vacation" asp-action="Index" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
                 @if (User?.Identity?.IsAuthenticated == true && !Model.IsManager && !Model.IsSaved)
