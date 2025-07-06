@@ -218,6 +218,8 @@ namespace VacationApp.Services.Core
         public async Task<IEnumerable<AllReservationsViewModel>> GetAllReservations(string? Userid)
         {
 
+
+            IdentityUser? user = await userManager.FindByIdAsync(Userid);
             var reservations =await  Dbcontext.Reservations
                                 .Include(r=> r.Hotel)
                                 .AsNoTracking()
@@ -228,6 +230,7 @@ namespace VacationApp.Services.Core
                                     HotelName=r.Hotel.HotelName,
                                     StartDate = r.StartDate.ToString(ValidationConstants.DateFormat),
                                     EndDate= r.EndDate.ToString(ValidationConstants.DateFormat),
+                                    IsUserGuest= user!=null?  r.GuestId== user.Id:false,
                                 }).ToListAsync();
 
 
