@@ -72,6 +72,9 @@ namespace VacationAdd.Data.Models
         [ForeignKey(nameof(HotelId))]
         public virtual Hotel Hotel { get; set; } = null!;
 
+        public bool IsDeleted { get; set; } = false;
+
+
         public virtual ICollection<UserReservation> UsersReservations { get; set; } = new HashSet<UserReservation>();
     }
 }

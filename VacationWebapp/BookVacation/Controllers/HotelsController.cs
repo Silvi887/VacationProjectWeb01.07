@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Vacation.GConstants;
 using VacationApp.Services.Core.Interface;
@@ -26,6 +27,8 @@ namespace BookVacation.Controllers
         {
             string? UserId = this.GetUserId();
             IEnumerable<AllHotelsIndexViewModel> allVacations = await this.vacationService.GetAllHotelsAsync(UserId);
+
+           
             return View(allVacations);
         }
 

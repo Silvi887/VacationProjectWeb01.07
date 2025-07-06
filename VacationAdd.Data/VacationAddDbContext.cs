@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -89,6 +90,19 @@ namespace VacationAdd.Data
 
             });
 
+            var defaultUser = new IdentityUser
+            {
+                Id = "7699db7d-964f-4782-8209-d76562e0fece",
+                UserName = "admin@horizons.com",
+                NormalizedUserName = "ADMIN@HORIZONS.COM",
+                Email = "admin@horizons.com",
+                NormalizedEmail = "ADMIN@HORIZONS.COM",
+                EmailConfirmed = true,
+                PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(
+           new IdentityUser { UserName = "admin@horizons.com" },
+           "Admin123!")
+            };
+            builder.Entity<IdentityUser>().HasData(defaultUser);
 
 
             //builder.Entity<Vacation>().HasData(

@@ -1,6 +1,9 @@
-using System.Diagnostics;
 using BookVacation.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using System.Security.Claims;
 using VacationApp.Services.Core.Interface;
 using VacationApp.ViewModels.Vacation;
 
@@ -10,15 +13,31 @@ namespace BookVacation.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly   IVacationService vacationService;
+        private readonly UserManager<IdentityUser?>? UserManager;
 
-        public HomeController(ILogger<HomeController> logger, IVacationService vacService)
+        public HomeController(ILogger<HomeController> logger, IVacationService vacService, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
             this.vacationService = vacService;
+            this.UserManager = userManager;
         }
 
-        public IActionResult Index()
+        [AllowAnonymous]
+        public async Task<IActionResult> Index()
         {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+
+                return View();
+                // return RedirectToAction("Index","Vacation");
+            }
+
+            var user = await  UserManager.FindByIdAsync(userId);
+
+
+              ViewBag.EmailConfirmed = user?.EmailConfirmed ?? false;
 
             return View();
         }

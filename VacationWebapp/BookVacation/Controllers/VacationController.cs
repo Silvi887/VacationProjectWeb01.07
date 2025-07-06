@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ namespace BookVacation.Controllers
             this.vacationService = vacService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -27,6 +29,7 @@ namespace BookVacation.Controllers
             IEnumerable<AllHotelsIndexViewModel> allVacations = await this.vacationService.GetAllHotelsAsync(UserId);
             return View(allVacations);
         }
+
 
         [HttpGet]
 
@@ -38,6 +41,9 @@ namespace BookVacation.Controllers
             IEnumerable<AllReservationsViewModel> allreservations = await this.vacationService.GetAllReservations(UserId);
             return View(allreservations);
         }
+
+
+        [AllowAnonymous]
 
         [HttpGet]
         public async Task<IActionResult> Details(string? id)

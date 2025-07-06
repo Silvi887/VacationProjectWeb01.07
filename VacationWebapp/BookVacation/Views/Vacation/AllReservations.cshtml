@@ -44,7 +44,7 @@
                                     </button>
                                 </form>
                             }
-                            @if (res.IsUserGuest)
+                           else @if (res.IsUserGuest)
                             {
                                 <a asp-controller="Vacation" asp-action="Edit" asp-route-id="@res.IdReservation" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
                                     <i class="fas fa-edit"></i> Edit

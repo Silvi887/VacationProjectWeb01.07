@@ -137,6 +137,24 @@ namespace VacationAdd.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "7699db7d-964f-4782-8209-d76562e0fece",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ddcec961-d35b-4365-818e-b9a7c7a46755",
+                            Email = "admin@horizons.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@HORIZONS.COM",
+                            NormalizedUserName = "ADMIN@HORIZONS.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPeNaVMKhsQsSqWGqDwhDWE7l39eweJZpuoDtBsqFh7Zq0P1w45as0z4MYNMRf36jQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5ee4e005-a3fb-4d39-8920-95d827f71216",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@horizons.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -249,6 +267,9 @@ namespace VacationAdd.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("NumberofRooms")
                         .HasColumnType("int");
 
@@ -304,6 +325,9 @@ namespace VacationAdd.Data.Migrations
 
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()

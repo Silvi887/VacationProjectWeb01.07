@@ -194,7 +194,8 @@ namespace VacationAdd.Data.Migrations
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HotelInfo = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
                     IDManager = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TownId = table.Column<int>(type: "int", nullable: false)
+                    TownId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -231,7 +232,8 @@ namespace VacationAdd.Data.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumberOfPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: false)
+                    HotelId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -279,6 +281,11 @@ namespace VacationAdd.Data.Migrations
                         principalColumn: "IdReservation",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "7699db7d-964f-4782-8209-d76562e0fece", 0, "ddcec961-d35b-4365-818e-b9a7c7a46755", "admin@horizons.com", true, false, null, "ADMIN@HORIZONS.COM", "ADMIN@HORIZONS.COM", "AQAAAAIAAYagAAAAEPeNaVMKhsQsSqWGqDwhDWE7l39eweJZpuoDtBsqFh7Zq0P1w45as0z4MYNMRf36jQ==", null, false, "5ee4e005-a3fb-4d39-8920-95d827f71216", false, "admin@horizons.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
