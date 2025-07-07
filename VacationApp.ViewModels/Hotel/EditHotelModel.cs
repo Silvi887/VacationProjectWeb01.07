@@ -42,6 +42,6 @@ namespace VacationApp.ViewModels.Hotel
         //public virtual IdentityUser Manager { get; set; } = null!;
 
 
-        public IEnumerable<TownModel> ListTowns { get; set; } = null!;
+      //  public IEnumerable<TownModel> ListTowns { get; set; } = null!;
     }
 }

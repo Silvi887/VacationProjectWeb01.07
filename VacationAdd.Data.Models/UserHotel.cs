@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace VacationAdd.Data.Models
 {
-    public class UserReservation
+    public class UserHotel
     {
 
 
@@ -18,10 +18,10 @@ namespace VacationAdd.Data.Models
         public IdentityUser User { get; set; } = null!;
 
         [Required]
-        public int ReservationID { get; set; }
+        public int HotelID { get; set; }
 
-        [ForeignKey(nameof(ReservationID))]
-        public Reservation Reservation { get; set; } = null!;
+        [ForeignKey(nameof(HotelID))]
+        public Hotel Hotel { get; set; } = null!;
     }
 }
 

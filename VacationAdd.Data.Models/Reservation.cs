@@ -75,6 +75,6 @@ namespace VacationAdd.Data.Models
         public bool IsDeleted { get; set; } = false;
 
 
-        public virtual ICollection<UserReservation> UsersReservations { get; set; } = new HashSet<UserReservation>();
+      
     }
 }

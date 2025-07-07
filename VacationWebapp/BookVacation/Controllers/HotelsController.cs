@@ -134,7 +134,7 @@ namespace BookVacation.Controllers
             {
                 EditHotelModel hotelMode =await hotelService.GetForEditHotel(id1, UserId);
 
-                hotelMode.ListTowns = (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync();
+                //hotelMode.ListTowns = (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync();
                 if (!this.ModelState.IsValid)
                 {
                     return RedirectToAction(nameof(Index));
@@ -165,7 +165,7 @@ namespace BookVacation.Controllers
 
                 bool isvalidhotel= await hotelService.EditHotel(UserId, hotelnmodel);
 
-                hotelnmodel.ListTowns= (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync();
+               // hotelnmodel.ListTowns= (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync();
 
                 if (!ModelState.IsValid)
                 {

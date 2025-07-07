@@ -143,15 +143,15 @@ namespace VacationAdd.Data.Migrations
                         {
                             Id = "7699db7d-964f-4782-8209-d76562e0fece",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ddcec961-d35b-4365-818e-b9a7c7a46755",
+                            ConcurrencyStamp = "684d18c9-2074-45d3-9f6b-5474061ee4eb",
                             Email = "admin@horizons.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@HORIZONS.COM",
                             NormalizedUserName = "ADMIN@HORIZONS.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPeNaVMKhsQsSqWGqDwhDWE7l39eweJZpuoDtBsqFh7Zq0P1w45as0z4MYNMRf36jQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBjZbOAu/7zUigRjH34r21CuuXZ3zIPzdt0+in1BLhG4HlhSWJ0vx8ITaeWaaG9bwg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5ee4e005-a3fb-4d39-8920-95d827f71216",
+                            SecurityStamp = "78046139-c6a2-498f-8a8e-fdcc436b381a",
                             TwoFactorEnabled = false,
                             UserName = "admin@horizons.com"
                         });
@@ -391,17 +391,17 @@ namespace VacationAdd.Data.Migrations
                     b.ToTable("Towns");
                 });
 
-            modelBuilder.Entity("VacationAdd.Data.Models.UserReservation", b =>
+            modelBuilder.Entity("VacationAdd.Data.Models.UserHotel", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ReservationID")
+                    b.Property<int>("HotelID")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "ReservationID");
+                    b.HasKey("UserId", "HotelID");
 
-                    b.HasIndex("ReservationID");
+                    b.HasIndex("HotelID");
 
                     b.ToTable("UserReservations");
                 });
@@ -503,11 +503,11 @@ namespace VacationAdd.Data.Migrations
                     b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("VacationAdd.Data.Models.UserReservation", b =>
+            modelBuilder.Entity("VacationAdd.Data.Models.UserHotel", b =>
                 {
-                    b.HasOne("VacationAdd.Data.Models.Reservation", "Reservation")
-                        .WithMany("UsersReservations")
-                        .HasForeignKey("ReservationID")
+                    b.HasOne("VacationAdd.Data.Models.Hotel", "Hotel")
+                        .WithMany("UsersHotels")
+                        .HasForeignKey("HotelID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -517,7 +517,7 @@ namespace VacationAdd.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Reservation");
+                    b.Navigation("Hotel");
 
                     b.Navigation("User");
                 });
@@ -525,11 +525,8 @@ namespace VacationAdd.Data.Migrations
             modelBuilder.Entity("VacationAdd.Data.Models.Hotel", b =>
                 {
                     b.Navigation("Reservations");
-                });
 
-            modelBuilder.Entity("VacationAdd.Data.Models.Reservation", b =>
-                {
-                    b.Navigation("UsersReservations");
+                    b.Navigation("UsersHotels");
                 });
 
             modelBuilder.Entity("VacationAdd.Data.Models.Room", b =>

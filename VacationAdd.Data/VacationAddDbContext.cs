@@ -26,7 +26,7 @@ namespace VacationAdd.Data
 
         public DbSet<Reservation> Reservations { get; set; }
 
-        public DbSet<UserReservation> UserReservations { get; set; }
+        public DbSet<UserHotel> UserReservations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -52,14 +52,14 @@ namespace VacationAdd.Data
 
             });
 
-            builder.Entity<UserReservation>(entity =>
+            builder.Entity<UserHotel>(entity =>
             {
-                entity.HasKey(ur => new { ur.UserId, ur.ReservationID });
+                entity.HasKey(ur => new { ur.UserId, ur.HotelID });
 
                 entity
-             .HasOne(e => e.Reservation)
-             .WithMany(e => e.UsersReservations)
-             .HasForeignKey(e => e.ReservationID)
+             .HasOne(e => e.Hotel)
+             .WithMany(e => e.UsersHotels)
+             .HasForeignKey(e => e.HotelID)
              .OnDelete(DeleteBehavior.Restrict);
 
                 entity

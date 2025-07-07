@@ -263,11 +263,11 @@ namespace VacationAdd.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ReservationID = table.Column<int>(type: "int", nullable: false)
+                    HotelID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserReservations", x => new { x.UserId, x.ReservationID });
+                    table.PrimaryKey("PK_UserReservations", x => new { x.UserId, x.HotelID });
                     table.ForeignKey(
                         name: "FK_UserReservations_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -275,17 +275,17 @@ namespace VacationAdd.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserReservations_Reservations_ReservationID",
-                        column: x => x.ReservationID,
-                        principalTable: "Reservations",
-                        principalColumn: "IdReservation",
+                        name: "FK_UserReservations_Hotels_HotelID",
+                        column: x => x.HotelID,
+                        principalTable: "Hotels",
+                        principalColumn: "IdHotel",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "7699db7d-964f-4782-8209-d76562e0fece", 0, "ddcec961-d35b-4365-818e-b9a7c7a46755", "admin@horizons.com", true, false, null, "ADMIN@HORIZONS.COM", "ADMIN@HORIZONS.COM", "AQAAAAIAAYagAAAAEPeNaVMKhsQsSqWGqDwhDWE7l39eweJZpuoDtBsqFh7Zq0P1w45as0z4MYNMRf36jQ==", null, false, "5ee4e005-a3fb-4d39-8920-95d827f71216", false, "admin@horizons.com" });
+                values: new object[] { "7699db7d-964f-4782-8209-d76562e0fece", 0, "684d18c9-2074-45d3-9f6b-5474061ee4eb", "admin@horizons.com", true, false, null, "ADMIN@HORIZONS.COM", "ADMIN@HORIZONS.COM", "AQAAAAIAAYagAAAAEBjZbOAu/7zUigRjH34r21CuuXZ3zIPzdt0+in1BLhG4HlhSWJ0vx8ITaeWaaG9bwg==", null, false, "78046139-c6a2-498f-8a8e-fdcc436b381a", false, "admin@horizons.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -352,9 +352,9 @@ namespace VacationAdd.Data.Migrations
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserReservations_ReservationID",
+                name: "IX_UserReservations_HotelID",
                 table: "UserReservations",
-                column: "ReservationID");
+                column: "HotelID");
         }
 
         /// <inheritdoc />
@@ -376,19 +376,19 @@ namespace VacationAdd.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Reservations");
+
+            migrationBuilder.DropTable(
                 name: "UserReservations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Reservations");
+                name: "Rooms");
 
             migrationBuilder.DropTable(
                 name: "Hotels");
-
-            migrationBuilder.DropTable(
-                name: "Rooms");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

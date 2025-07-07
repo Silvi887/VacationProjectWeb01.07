@@ -40,7 +40,7 @@ namespace BookVacation.Controllers
         }
 
 
-        [AllowAnonymous]
+        
         [HttpGet]
 
         public async Task<IActionResult> AllReservations(string? Userid)
@@ -174,7 +174,7 @@ namespace BookVacation.Controllers
                 bool editreservation = await vacationService
                                            .DeleteReservation(userid, deletedres.IdReservation);
 
-               // reservationmodel.roomdrp = (IEnumerable<RoomViewModel>)await this.vacationService.RoomViewDataAsync();
+                //deletedres.roomdrp = (IEnumerable<RoomViewModel>)await this.vacationService.RoomViewDataAsync();
 
                 if (editreservation == false)
                 {

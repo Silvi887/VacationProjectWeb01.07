@@ -57,7 +57,9 @@ namespace VacationAdd.Data.Models
 
         public virtual ICollection<Reservation>  Reservations {get;set;}=new HashSet<Reservation>();
 
-    
+        public virtual ICollection<UserHotel> UsersHotels { get; set; } = new HashSet<UserHotel>();
+
+
 
 
 

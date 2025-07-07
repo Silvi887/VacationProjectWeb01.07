@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.VisualBasic;
@@ -223,7 +224,7 @@ namespace VacationApp.Services.Core
             var reservations =await  Dbcontext.Reservations
                                 .Include(r=> r.Hotel)
                                 .AsNoTracking()
-                                .Where(r => r.GuestId == Userid && r.IsDeleted == false)
+                                .Where( r =>r.IsDeleted == false)   /* r.GuestId == Userid &&*/
                                 .Select(r =>new AllReservationsViewModel()
                                 {
                                     IdReservation= r.IdReservation,
