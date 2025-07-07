@@ -1,7 +1,9 @@
 ﻿using Humanizer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using VacationAdd.Data.Models;
@@ -14,10 +16,12 @@ namespace BookVacation.Controllers
     public class VacationController :BaseController
     {
         private readonly IVacationService vacationService;
+        private readonly UserManager<IdentityUser?>? UserManager;
 
-        public VacationController(IVacationService vacService)
+        public VacationController(IVacationService vacService, UserManager<IdentityUser> userManager)
         {
             this.vacationService = vacService;
+            this.UserManager = userManager;
         }
 
         [AllowAnonymous]
@@ -26,11 +30,17 @@ namespace BookVacation.Controllers
         {
 
             string? UserId = this.GetUserId();
-            IEnumerable<AllHotelsIndexViewModel> allVacations = await this.vacationService.GetAllHotelsAsync(UserId);
-            return View(allVacations);
+            IEnumerable<AllHotelsIndexViewModel> AllHotels = await this.vacationService.GetAllHotelsAsync(UserId);
+
+            var user = await UserManager.FindByIdAsync(UserId);
+
+
+            ViewBag.EmailConfirmed = user?.EmailConfirmed ?? false;
+            return View(AllHotels);
         }
 
 
+        [AllowAnonymous]
         [HttpGet]
 
         public async Task<IActionResult> AllReservations(string? Userid)
@@ -39,6 +49,8 @@ namespace BookVacation.Controllers
             string? UserId = this.GetUserId();
 
             IEnumerable<AllReservationsViewModel> allreservations = await this.vacationService.GetAllReservations(UserId);
+            var user = await UserManager.FindByIdAsync(UserId);
+            ViewBag.EmailConfirmed = user?.EmailConfirmed ?? false;
             return View(allreservations);
         }
 
@@ -128,21 +140,61 @@ namespace BookVacation.Controllers
 
             }
         }
-       
-        //[HttpGet]
-        //public async Task<IActionResult> Delete(string id)
-        //{
-        //    int id1 = int.Parse(id);
-        //    var UserId = this.GetUserId();
 
-        //    bool isccess= await vacationService.DeleteReservation(UserId, id1);
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id) //Delete
+        {
+            int id1 = int.Parse(id);
+            var UserId = this.GetUserId();
 
-        //    if (!isccess)
-        //    {
-        //        return View(nameof(Index));
-        //    }
-        //    return View("Views/Vacation/AllReservations.cshtml", currentreservation);
-        //}
+            DeleteReservationIndexModel  selectedreservation = await vacationService.GetForDeleteReservation( id1,UserId);
+
+            if (selectedreservation != null)
+            {
+                return View("Views/Vacation/DeleteReservation.cshtml", selectedreservation);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Delete(DeleteReservationIndexModel deletedres)
+        {
+
+            try
+            {
+
+                string? userid = this.GetUserId();
+
+                if (!ModelState.IsValid)
+                {
+
+                    return View(nameof(Index));
+                }
+                bool editreservation = await vacationService
+                                           .DeleteReservation(userid, deletedres.IdReservation);
+
+               // reservationmodel.roomdrp = (IEnumerable<RoomViewModel>)await this.vacationService.RoomViewDataAsync();
+
+                if (editreservation == false)
+                {
+                    return View("Views/Vacation/Edit.cshtml", deletedres);
+                }
+
+
+                return this.RedirectToAction(nameof(AllReservations));
+
+               // ViewBag.SuccessMessage = "Successful update of reservation!";
+               // return View("Views/Vacation/AllReservations.cshtml");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return this.RedirectToAction(nameof(Index));
+
+            }
+
+        }
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
@@ -196,7 +248,7 @@ namespace BookVacation.Controllers
 
             }
 
-            throw new Exception();
+          
         }
 
     }

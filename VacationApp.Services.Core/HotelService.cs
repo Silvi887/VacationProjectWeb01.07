@@ -114,7 +114,7 @@ namespace VacationApp.Services.Core
             return isValidhotelop;
         }
 
-        public async Task<EditHotelModel> GetForEditHotel( string? Userid, int? id)
+        public async Task<EditHotelModel> GetForEditHotel( int? id ,string? Userid)
         {
 
 
@@ -132,8 +132,10 @@ namespace VacationApp.Services.Core
                     Stars = currenthotel.Stars,
                     NumberofRooms = currenthotel.NumberofRooms,
                     Idhotel = currenthotel.IdHotel.ToString(),
-                    IDManager = currenthotel.IDManager
-
+                    IDManager = currenthotel.IDManager,
+                    ImageUrl= currenthotel.ImageUrl,
+                    HotelInfo= currenthotel.HotelInfo
+                   
 
                 };
 
@@ -142,10 +144,7 @@ namespace VacationApp.Services.Core
             return edithotelmodel;
         }
 
-        public Task<EditHotelModel> GetForEditHotel(int? id, string? Userid)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task<IEnumerable<TownModel>> TownViewDataAsync()  //padashto menu gradove
         {

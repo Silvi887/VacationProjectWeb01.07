@@ -35,7 +35,7 @@
                             <a asp-controller="Vacation" asp-action="Index" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">
                                 <i class="fas fa-arrow-left"></i> Back
                             </a>
-                            @if (User?.Identity?.IsAuthenticated == true && !res.IsUserGuest) @* && !Model.IsInUserFavorite *@
+                            @if (res.IsUserGuest && User?.Identity?.IsAuthenticated == true) @* && !Model.IsInUserFavorite *@
                             {
                                 <form asp-controller="Vacation" asp-action="AddToFavorites" method="post" class="d-flex justify-content-center align-items-center flex-fill mx-1">
                                     <input type="hidden" name="id" value="@res.IdReservation" />
@@ -43,9 +43,9 @@
                                         <i class="fas fa-heart"></i> Add to Favorites
                                     </button>
                                 </form>
-                            }
-                           else @if (res.IsUserGuest)
-                            {
+                            
+                            @* else @if (User?.Identity?.IsAuthenticated == true) @*  && ViewBag.EmailConfirmed == false  *@
+                            
                                 <a asp-controller="Vacation" asp-action="Edit" asp-route-id="@res.IdReservation" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>

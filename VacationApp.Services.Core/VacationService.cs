@@ -223,7 +223,7 @@ namespace VacationApp.Services.Core
             var reservations =await  Dbcontext.Reservations
                                 .Include(r=> r.Hotel)
                                 .AsNoTracking()
-                                .Where(r => r.GuestId == Userid)
+                                .Where(r => r.GuestId == Userid && r.IsDeleted == false)
                                 .Select(r =>new AllReservationsViewModel()
                                 {
                                     IdReservation= r.IdReservation,
@@ -249,9 +249,11 @@ namespace VacationApp.Services.Core
         public async Task<DetailsHotelIndexViewModel?> GetHotelDetailsAsync(int? id, string? UserId)
         {
 
+            IdentityUser? currentUser = await userManager.FindByIdAsync(UserId);
             DetailsHotelIndexViewModel? hoteldetails = null;
             Hotel? CurrentDetailshotel = await Dbcontext.Hotels
                 .Include(h=> h.Town)
+                .Include(h=> h.Manager)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(h => h.IdHotel == id.Value);
 
@@ -266,7 +268,9 @@ namespace VacationApp.Services.Core
                     NumberofRooms = CurrentDetailshotel.NumberofRooms,
                     ImageUrl = CurrentDetailshotel.ImageUrl,
                     HotelInfo = CurrentDetailshotel.HotelInfo,
-                    TownName = CurrentDetailshotel.Town.NameTown
+                    TownName = CurrentDetailshotel.Town.NameTown,
+                    ManagerId=CurrentDetailshotel.IDManager,
+                    IsManager= currentUser != null ? currentUser.Id == CurrentDetailshotel.IDManager : false,
 
                 };
 
@@ -309,49 +313,53 @@ namespace VacationApp.Services.Core
             return allrooms;
         }
 
-        //public async Task<AddReservation> GetForDeleteReservation(int? id, string? Userid)
-        //{
+        public async Task<DeleteReservationIndexModel> GetForDeleteReservation(int? id, string? Userid)
+        {
 
 
-        //    IdentityUser? currentUser = await userManager.FindByIdAsync(Userid);
-        //    AddReservation reservation1 = null;
+            IdentityUser? currentUser = await userManager.FindByIdAsync(Userid);
+            DeleteReservationIndexModel? reservation1 = null;
 
-        //    if (currentUser != null)
-        //    {
+            if (currentUser != null)
+            {
 
-        //        Reservation? curentreservation = await Dbcontext.Reservations.Include(r => r.Hotel)
+                Reservation? curentreservation = await Dbcontext.Reservations.Include(r => r.Hotel)
 
-        //            .FirstOrDefaultAsync(r => r.IdReservation == id);
+                    .FirstOrDefaultAsync(r => r.IdReservation == id);
 
-        //        reservation1 = new AddReservation()
-        //        {
-
-
-        //            StartDate = curentreservation.StartDate.ToString("yyyy-MM-dd"),
-
-        //            EndDate = curentreservation.StartDate.ToString("yyyy-MM-dd"),
-        //            AdultsCount = curentreservation.AdultsCount,
-
-        //            ChildrenCount = curentreservation.ChildrenCount,
-
-        //            RoomId = curentreservation.RoomId.ToString(),
-        //            HotelId = curentreservation.HotelId.ToString(),
-        //            HotelName = curentreservation.Hotel.HotelName,
-        //            GuestFirstName = curentreservation.FirstName,
-        //            LastNameG = curentreservation.LastName,
-        //            DateofBirth = curentreservation.DateOfBirth.ToString("yyyy-MM-dd"),
-        //            GuestAddress = curentreservation.Address,
-        //            GuestEmail = curentreservation.Email,
-        //            GuestPhoneNumber = curentreservation.NumberOfPhone
-        //        };
-
-        //    }
+                reservation1 = new DeleteReservationIndexModel()
+                {
 
 
-        //    return reservation1;
-        //}
+                    StartDate = curentreservation.StartDate.ToString("yyyy-MM-dd"),
 
-      
+                    EndDate = curentreservation.StartDate.ToString("yyyy-MM-dd"),
+                    IdReservation= curentreservation.IdReservation,
+                    GuestFirstName= curentreservation.FirstName+" "+ curentreservation.LastName,
+                    HotelName= curentreservation.Hotel.HotelName
+
+                    //AdultsCount = curentreservation.AdultsCount,
+
+                    //ChildrenCount = curentreservation.ChildrenCount,
+
+                    //RoomId = curentreservation.RoomId.ToString(),
+                    //HotelId = curentreservation.HotelId.ToString(),
+                    //HotelName = curentreservation.Hotel.HotelName,
+                    //GuestFirstName = curentreservation.FirstName,
+                    //LastNameG = curentreservation.LastName,
+                    //DateofBirth = curentreservation.DateOfBirth.ToString("yyyy-MM-dd"),
+                    //GuestAddress = curentreservation.Address,
+                    //GuestEmail = curentreservation.Email,
+                    //GuestPhoneNumber = curentreservation.NumberOfPhone
+                };
+
+            }
+
+
+            return reservation1;
+        }
+
+
 
         public  async Task<bool> DeleteReservation(string Userid, int? id)
         {
@@ -364,7 +372,9 @@ namespace VacationApp.Services.Core
             if(currentReservation != null && currentReservation != null)
             {
 
-                Dbcontext.Reservations.Remove(currentReservation);
+
+                currentReservation.IsDeleted = true;
+                //Dbcontext.Reservations.Remove(currentReservation);
                 Dbcontext.SaveChanges();
 
                 issuccessdelete = true;

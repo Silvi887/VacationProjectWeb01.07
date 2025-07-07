@@ -27,7 +27,7 @@ namespace VacationApp.Services.Core.Interface
         Task<EditReservation> GetForEditReservation(int? id, string? Userid);
         Task<bool> EditReservation(string UserId, EditReservation editreservation);
 
-        //Task<AddReservation> GetForDeleteReservation(int? id, string? Userid);
+        Task<DeleteReservationIndexModel> GetForDeleteReservation(int? id, string? Userid);
        
 
         Task<bool> DeleteReservation(string Userid, int? id);

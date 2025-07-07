@@ -13,11 +13,13 @@ namespace BookVacation.Controllers
 
         private readonly IHotelService hotelService;
         private readonly IVacationService vacationService;
+        private readonly UserManager<IdentityUser?>? UserManager;
 
-        public HotelsController(IHotelService hotelservice1, IVacationService vacservice1)
+        public HotelsController(IHotelService hotelservice1, IVacationService vacservice1, UserManager<IdentityUser> userManager)
         {
             this.hotelService = hotelservice1;
             this.vacationService = vacservice1;
+            this.UserManager = userManager;
         }
 
 
@@ -28,8 +30,15 @@ namespace BookVacation.Controllers
             string? UserId = this.GetUserId();
             IEnumerable<AllHotelsIndexViewModel> allVacations = await this.vacationService.GetAllHotelsAsync(UserId);
 
-           
-            return View(allVacations);
+
+            var user = await UserManager.FindByIdAsync(UserId);
+
+
+            ViewBag.EmailConfirmed = user?.EmailConfirmed ?? false;
+
+
+            return RedirectToAction(nameof(Index), "Vacation");
+           // return View(allVacations);
         }
 
 
@@ -125,12 +134,13 @@ namespace BookVacation.Controllers
             {
                 EditHotelModel hotelMode =await hotelService.GetForEditHotel(id1, UserId);
 
+                hotelMode.ListTowns = (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync();
                 if (!this.ModelState.IsValid)
                 {
                     return RedirectToAction(nameof(Index));
                 }
 
-                return View("Views/Hotel/EditHotelModel.cshtml", hotelMode);
+                return View("Views/Vacation/EditHotel.cshtml", hotelMode);
             }
 
             catch (Exception ex)
@@ -144,7 +154,7 @@ namespace BookVacation.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Edit(EditHotelModel hotelnmodel)
         {
 
@@ -159,12 +169,14 @@ namespace BookVacation.Controllers
 
                 if (!ModelState.IsValid)
                 {
-                    return View("Views/Hotel/EditHotelModel.cshtml", hotelnmodel);
+                    return View("Views/Vacation/EditHotel.cshtml", hotelnmodel);
                 }
 
 
                 ViewBag.SuccessMessage = "Successful update of hotel!";
-                return View("Views/Hotel/EditHotelModel.cshtml", hotelnmodel);
+                return RedirectToAction(nameof(Index), "Vacation");
+
+                // return View("Views/Hotel/EditHotelModel.cshtml", hotelnmodel);
             }
 
             catch (Exception ex)

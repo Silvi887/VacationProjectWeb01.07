@@ -35,7 +35,10 @@ namespace VacationApp.ViewModels.Vacation
 
         [Required]
         public string GuestId { get; set; } = null!;
-     
+
+        [Required]
+        public string ManagerId { get; set; } = null!;
+
 
         public bool IsManager { get; set; }
 

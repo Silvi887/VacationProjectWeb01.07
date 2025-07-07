@@ -4,7 +4,7 @@
 
 
 @using VacationApp.ViewModels.Hotel
-@model AddHotel
+@model EditHotelModel
 
 
 <div class="row3">
@@ -13,13 +13,15 @@
 <div class="row1">
 
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Add" method="post">
+        <form asp-action="Edit" method="post">
             <div class="row1">
                 <div class="col-sm-6 mb-3">
                     <label class="form-label-add-edit">HotelName</label>
                     <input asp-for="@Model.HotelName" class="form-control" aria-required="true" />
-
-                    @*  <input asp-for="@Model.Idhotel" type="hidden" aria-required="true" />
+                    <input asp-for="@Model.Idhotel" type="hidden" aria-required="true" />
+                    <input asp-for="@Model.IDManager" type="hidden" aria-required="true" />
+                    
+                    @*  
                      <span asp-validation-for="@Model.Name" class="text-danger"></span> *@
                 </div>
             </div>
@@ -33,7 +35,7 @@
                 </div>
 
                 <div class="col-sm-6 mb-3">
-                    <label asp-for="@Model.NumberofRooms" class="form-label-add-edit">Family</label>
+                    <label asp-for="@Model.NumberofRooms" class="form-label-add-edit">Number of Rooms</label>
                     <input asp-for="@Model.NumberofRooms" class="form-control" aria-required="true" />
                     @*   <select  class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Terrains, "Id", "Name"))">
                         <option value="">...</option>

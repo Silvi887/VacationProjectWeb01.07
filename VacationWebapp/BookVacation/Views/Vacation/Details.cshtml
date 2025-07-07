@@ -58,12 +58,12 @@
                         </button>
                     </form>
                 }
-                @if (Model.IsManager)
+                else @if (Model.IsManager)
                 {
                     <a asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.IdHotel" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
                         <i class="fas fa-edit"></i> Edit
                     </a>
-                    <a asp-controller="Htetels" asp-action="Delete" asp-route-id="@Model.IdHotel" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
+                    <a asp-controller="Hotels" asp-action="Delete" asp-route-id="@Model.IdHotel" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
                         <i class="fas fa-trash"></i> Delete
                     </a>
                 }
