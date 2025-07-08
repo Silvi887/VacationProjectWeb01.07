@@ -384,25 +384,28 @@ namespace VacationApp.Services.Core
             return issuccessdelete;
         }
 
-        public async Task<IEnumerable<FavoriteHotelIndexViewModel>> GetFavoriteReservation(string? Userid)
+        public async Task<IEnumerable<FavoriteHotelIndexViewModel>> GetFavoriteHotels(string? Userid)
         {
 
+            bool issuccessfavorite = false;
             IdentityUser? curentuser = await userManager.FindByIdAsync(Userid);
             IEnumerable<FavoriteHotelIndexViewModel>? favoritehotel = null;
 
 
             if (curentuser != null)
             {
-                favoritehotel =await Dbcontext.UserHotels.Where(f => f.UserId.ToLower() == curentuser.Id.ToLower())
+                favoritehotel =await Dbcontext.UserHotels
+                    .Where(f => f.UserId.ToLower() == curentuser.Id.ToLower() && f.Hotel.IsDeleted==false)
                     .Include(f=> f.Hotel.Town)
                      .Select(h => new FavoriteHotelIndexViewModel()
                      {
                          IdHotel= h.HotelID,
                          TownName=h.Hotel.Town.NameTown,
-                         ImageUrl= h.Hotel.ImageUrl
+                         ImageUrl= h.Hotel.ImageUrl,
+                         HotelName=h.Hotel.HotelName
                      }).ToArrayAsync();
 
-
+                issuccessfavorite=true;
             }
 
             return favoritehotel;
@@ -413,9 +416,61 @@ namespace VacationApp.Services.Core
            // throw new NotImplementedException();
         }
 
-        public Task<bool> FavoriteReservation(string Userid)
+        public async Task<bool> FavoriteHotels(string Userid, int idhotel)
         {
-            throw new NotImplementedException();
+
+            bool issuccessfavorite = false;
+            IdentityUser? curentuser = await userManager.FindByIdAsync(Userid);
+
+            Hotel? currentHotel = await Dbcontext.Hotels.FindAsync(idhotel);
+
+            if (curentuser != null && currentHotel != null) /* && currentHotel.IDManager != curentuser.Id */
+            {
+                UserHotel CurrentHotel = await Dbcontext.UserHotels.SingleOrDefaultAsync(h => h.HotelID == currentHotel.IdHotel && h.UserId== curentuser.Id);
+
+
+                if (CurrentHotel == null)
+                {
+
+                    CurrentHotel = new UserHotel()
+                    {
+                        UserId= curentuser.Id,
+                        HotelID=idhotel
+                       // HotelID = idhotel,
+                        //UserId = curentuser.Id
+                    };
+                 await Dbcontext.UserHotels.AddAsync(CurrentHotel);
+                }
+             
+                await this.Dbcontext.SaveChangesAsync();
+
+                issuccessfavorite = true;
+            }
+          
+
+
+            return issuccessfavorite;
+        }
+
+        public async Task<bool> RemoveFavorite(string Userid, int? id)
+        {
+            bool isdeleted = false;
+            IdentityUser? curentuser = await userManager.FindByIdAsync(Userid);
+            Hotel? hoteltoremove = await Dbcontext.Hotels.SingleOrDefaultAsync(h => h.IdHotel == id);
+            if(curentuser != null && hoteltoremove != null)
+            {
+                hoteltoremove.IsDeleted = true;
+
+
+                await this.Dbcontext.SaveChangesAsync();
+
+                isdeleted = true;
+            }
+
+
+
+            return isdeleted;
+            //throw new NotImplementedException();
         }
 
 

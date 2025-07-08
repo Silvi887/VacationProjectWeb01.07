@@ -202,15 +202,14 @@ namespace BookVacation.Controllers
         {
 
 
-
             string? userid = this.GetUserId();
-            IEnumerable<FavoriteHotelIndexViewModel>? AllHotels = await vacationService.GetFavoriteReservation(userid);
+            IEnumerable<FavoriteHotelIndexViewModel>? AllHotels = await vacationService.GetFavoriteHotels(userid);
             try
             {
                
                 // AllHotels = await this.vacationService.GetFavotiteReservation(userid);
 
-                if(AllHotels != null)
+                if(AllHotels == null)
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -228,15 +227,23 @@ namespace BookVacation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetFavorite()
+        public async Task<IActionResult> GetFavorite(int id)
         {
-
+            string? userid = this.GetUserId();
 
             try
             {
+                bool isavalid = await vacationService.FavoriteHotels(userid, id);
+
+                if (isavalid == false)
+                {
+                    return this.RedirectToAction(nameof(Index));
+                }
+                return this.RedirectToAction(nameof(GetFavorite));
+
 
             }
-              catch (Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return this.RedirectToAction(nameof(Index));
@@ -244,6 +251,34 @@ namespace BookVacation.Controllers
             }
 
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteFavorite(int id)
+        {
+
+            try
+            {
+
+                var Userid = this.GetUserId();
+                bool isavalid = await vacationService.RemoveFavorite(Userid,id);
+
+                if (isavalid == false)
+                {
+                    return this.RedirectToAction(nameof(Index));
+                }
+                return RedirectToAction(nameof(GetFavorite));
+            }
+
+        
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return this.RedirectToAction(nameof(Index));
+
+        }
+       }
+
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)

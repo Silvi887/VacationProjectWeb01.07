@@ -32,10 +32,11 @@ namespace VacationApp.Services.Core.Interface
        
 
         Task<bool> DeleteReservation(string Userid, int? id);
+        Task<bool> RemoveFavorite(string Userid, int? id);
+        
+        Task<IEnumerable<FavoriteHotelIndexViewModel>> GetFavoriteHotels(string? Userid);
 
-        Task<IEnumerable<FavoriteHotelIndexViewModel>> GetFavoriteReservation(string? Userid);
 
-
-        Task<bool> FavoriteReservation(string Userid);
+        Task<bool> FavoriteHotels(string Userid, int favoritehotelid);
     }
 }

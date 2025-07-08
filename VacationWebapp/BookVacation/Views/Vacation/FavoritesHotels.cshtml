@@ -2,23 +2,23 @@
 @*     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
  
 *@
-{
+@* {
     ViewData["Title"] = "Favorite Destinations";
-}
+} *@
 
 @using VacationApp.ViewModels.Hotel
 @model  IEnumerable<FavoriteHotelIndexViewModel>
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
-    <h2>@ViewData["Title"]</h2>
+    <h2>Favotites hotels</h2>
 </div>
 <hr />
 
 @if (Model == null || !Model.Any())
 {
     <div class="text-center mt-5">
-        <h4>You don't have any favorite destinations yet!</h4>
-        <p class="text-muted">Start exploring and adding destinations to your favorites.</p>
+        <h4>You don't have any favorite hotels yet!</h4>
+        <p class="text-muted">Start exploring and adding hotels to your favorites.</p>
     </div>
 }
 else
@@ -38,10 +38,10 @@ else
             </div>
             <div class="col-md-4 text-start">
                 <h5 class="mb-0">@hotel.HotelName</h5>
-                <p class="text-muted mb-0"><small>Terrain: @hotel.TownName</small></p>
+                <p class="text-muted mb-0"><small>Town: @hotel.TownName</small></p>
             </div>
             <div class="col-md-4 text-end">
-                <form asp-controller="Destination" asp-action="RemoveFromFavorites" asp-route-id="@hotel.IdHotel" method="post" style="display:inline;">
+                <form asp-controller="Vacation" asp-action="DeleteFavorite" asp-route-id="@hotel.IdHotel" method="post" style="display:inline;">
                     <button type="submit" class="btn btn-danger">
                         <i class="fas fa-trash"></i> Remove
                     </button>
@@ -51,7 +51,7 @@ else
     }
 }
 <div class="text-center mt-5">
-    <a asp-controller="Destination" asp-action="Index" class="btn btn-primary mt-3">
-        <i class="fas fa-arrow-left"></i> Back to Destinations
+    <a asp-controller="Vacation" asp-action="Index" class="btn btn-primary mt-3">
+        <i class="fas fa-arrow-left"></i> Back to List of All Hotels
     </a>
 </div>

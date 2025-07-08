@@ -42,6 +42,12 @@
 								<a asp-controller="Vacation" asp-action="Add" asp-route-id="@($"{hotel.IdHotel},{hotel.HotelName}")" class="btn btn-info w-70">
 									<i class="fas fa-info-circle"></i> Make reservation
 								</a>
+
+								 <form asp-controller="Vacation" asp-action="GetFavorite" asp-route-id="@hotel.IdHotel" method="post" class="w-50">
+                                <input type="hidden" name="id" value="@hotel.IdHotel" />
+                                <button type="submit" class="btn btn-success w-100">
+                                    <i class="fas fa-heart"></i> Favorites</button>
+								 </form>
 								}
 @* 
 								@using (Html.BeginForm("Remove", "Vacation", FormMethod.Post, new { @class = "form-horizontal" }))

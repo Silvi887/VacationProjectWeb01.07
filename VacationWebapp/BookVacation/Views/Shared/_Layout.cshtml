@@ -35,8 +35,14 @@
                                     
                                  <a class="dropdown-item" asp-controller="Hotels" asp-action="AddHotel">
                                        <i class="fas fa-plus"></i> Add Hotel
-                                </a>
-                                 }
+                                    </a>
+                                }
+                                else if (User?.Identity?.IsAuthenticated == true && ViewBag.EmailConfirmed == false)
+                                {
+                                    <a class="dropdown-item" asp-controller="Vacation" asp-action="GetFavorite">
+                                        <i class="fas fa-plus"></i> Favorite hotel
+                                    </a>
+                                }
                             </div>
                         </li>
                         
