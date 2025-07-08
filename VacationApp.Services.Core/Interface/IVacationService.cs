@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VacationApp.ViewModels.Hotel;
 using VacationApp.ViewModels.Vacation;
 
 namespace VacationApp.Services.Core.Interface
@@ -31,5 +32,10 @@ namespace VacationApp.Services.Core.Interface
        
 
         Task<bool> DeleteReservation(string Userid, int? id);
+
+        Task<IEnumerable<FavoriteHotelIndexViewModel>> GetFavoriteReservation(string? Userid);
+
+
+        Task<bool> FavoriteReservation(string Userid);
     }
 }

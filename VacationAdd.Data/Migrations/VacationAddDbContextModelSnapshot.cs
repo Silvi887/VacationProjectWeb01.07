@@ -143,15 +143,15 @@ namespace VacationAdd.Data.Migrations
                         {
                             Id = "7699db7d-964f-4782-8209-d76562e0fece",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "684d18c9-2074-45d3-9f6b-5474061ee4eb",
+                            ConcurrencyStamp = "17739900-056b-4224-8145-81bbf903daa9",
                             Email = "admin@horizons.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@HORIZONS.COM",
                             NormalizedUserName = "ADMIN@HORIZONS.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBjZbOAu/7zUigRjH34r21CuuXZ3zIPzdt0+in1BLhG4HlhSWJ0vx8ITaeWaaG9bwg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPyjVtMZ/qQTvSPOuVKdlNDTY1eXY+ODCbeVjaQzUvvozfQZsxfrvtKZw0gdJYM9GQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "78046139-c6a2-498f-8a8e-fdcc436b381a",
+                            SecurityStamp = "aa0b7fb1-a688-42fd-9301-1637c340b27c",
                             TwoFactorEnabled = false,
                             UserName = "admin@horizons.com"
                         });
@@ -403,7 +403,7 @@ namespace VacationAdd.Data.Migrations
 
                     b.HasIndex("HotelID");
 
-                    b.ToTable("UserReservations");
+                    b.ToTable("UserHotels");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

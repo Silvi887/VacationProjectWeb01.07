@@ -17,6 +17,7 @@ using Vacation.GConstants;
 using VacationAdd.Data;
 using VacationAdd.Data.Models;
 using VacationApp.Services.Core.Interface;
+using VacationApp.ViewModels.Hotel;
 using VacationApp.ViewModels.Vacation;
 
 namespace VacationApp.Services.Core
@@ -381,6 +382,40 @@ namespace VacationApp.Services.Core
                 issuccessdelete = true;
             }
             return issuccessdelete;
+        }
+
+        public async Task<IEnumerable<FavoriteHotelIndexViewModel>> GetFavoriteReservation(string? Userid)
+        {
+
+            IdentityUser? curentuser = await userManager.FindByIdAsync(Userid);
+            IEnumerable<FavoriteHotelIndexViewModel>? favoritehotel = null;
+
+
+            if (curentuser != null)
+            {
+                favoritehotel =await Dbcontext.UserHotels.Where(f => f.UserId.ToLower() == curentuser.Id.ToLower())
+                    .Include(f=> f.Hotel.Town)
+                     .Select(h => new FavoriteHotelIndexViewModel()
+                     {
+                         IdHotel= h.HotelID,
+                         TownName=h.Hotel.Town.NameTown,
+                         ImageUrl= h.Hotel.ImageUrl
+                     }).ToArrayAsync();
+
+
+            }
+
+            return favoritehotel;
+
+
+
+
+           // throw new NotImplementedException();
+        }
+
+        public Task<bool> FavoriteReservation(string Userid)
+        {
+            throw new NotImplementedException();
         }
 
 

@@ -26,7 +26,7 @@ namespace VacationAdd.Data
 
         public DbSet<Reservation> Reservations { get; set; }
 
-        public DbSet<UserHotel> UserReservations { get; set; }
+        public DbSet<UserHotel> UserHotels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

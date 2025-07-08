@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VacationAdd.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class VacationMigration1 : Migration
+    public partial class VacationMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -259,7 +259,7 @@ namespace VacationAdd.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserReservations",
+                name: "UserHotels",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -267,15 +267,15 @@ namespace VacationAdd.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserReservations", x => new { x.UserId, x.HotelID });
+                    table.PrimaryKey("PK_UserHotels", x => new { x.UserId, x.HotelID });
                     table.ForeignKey(
-                        name: "FK_UserReservations_AspNetUsers_UserId",
+                        name: "FK_UserHotels_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserReservations_Hotels_HotelID",
+                        name: "FK_UserHotels_Hotels_HotelID",
                         column: x => x.HotelID,
                         principalTable: "Hotels",
                         principalColumn: "IdHotel",
@@ -285,7 +285,7 @@ namespace VacationAdd.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "7699db7d-964f-4782-8209-d76562e0fece", 0, "684d18c9-2074-45d3-9f6b-5474061ee4eb", "admin@horizons.com", true, false, null, "ADMIN@HORIZONS.COM", "ADMIN@HORIZONS.COM", "AQAAAAIAAYagAAAAEBjZbOAu/7zUigRjH34r21CuuXZ3zIPzdt0+in1BLhG4HlhSWJ0vx8ITaeWaaG9bwg==", null, false, "78046139-c6a2-498f-8a8e-fdcc436b381a", false, "admin@horizons.com" });
+                values: new object[] { "7699db7d-964f-4782-8209-d76562e0fece", 0, "17739900-056b-4224-8145-81bbf903daa9", "admin@horizons.com", true, false, null, "ADMIN@HORIZONS.COM", "ADMIN@HORIZONS.COM", "AQAAAAIAAYagAAAAEPyjVtMZ/qQTvSPOuVKdlNDTY1eXY+ODCbeVjaQzUvvozfQZsxfrvtKZw0gdJYM9GQ==", null, false, "aa0b7fb1-a688-42fd-9301-1637c340b27c", false, "admin@horizons.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -352,8 +352,8 @@ namespace VacationAdd.Data.Migrations
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserReservations_HotelID",
-                table: "UserReservations",
+                name: "IX_UserHotels_HotelID",
+                table: "UserHotels",
                 column: "HotelID");
         }
 
@@ -379,7 +379,7 @@ namespace VacationAdd.Data.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "UserReservations");
+                name: "UserHotels");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

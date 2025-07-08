@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using VacationAdd.Data.Models;
 using VacationApp.Services.Core;
 using VacationApp.Services.Core.Interface;
+using VacationApp.ViewModels.Hotel;
 using VacationApp.ViewModels.Vacation;
 
 namespace BookVacation.Controllers
@@ -188,6 +189,54 @@ namespace BookVacation.Controllers
                // return View("Views/Vacation/AllReservations.cshtml");
             }
             catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return this.RedirectToAction(nameof(Index));
+
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetFavorite()
+        {
+
+
+
+            string? userid = this.GetUserId();
+            IEnumerable<FavoriteHotelIndexViewModel>? AllHotels = await vacationService.GetFavoriteReservation(userid);
+            try
+            {
+               
+                // AllHotels = await this.vacationService.GetFavotiteReservation(userid);
+
+                if(AllHotels != null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return View("Views/Vacation/FavoritesHotels.cshtml", AllHotels);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return View("Views/Vacation/FavoritesHotels.cshtml", AllHotels);
+                //return this.RedirectToAction(nameof(Index));
+
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetFavorite()
+        {
+
+
+            try
+            {
+
+            }
+              catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return this.RedirectToAction(nameof(Index));
