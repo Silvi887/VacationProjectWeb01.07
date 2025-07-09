@@ -201,6 +201,7 @@ namespace VacationApp.Services.Core
         {
             IEnumerable<AllHotelsIndexViewModel> allhotels = await Dbcontext.Hotels
                 .AsNoTracking()
+                .Where(h=> h.IsDeleted == false)
                 .Select
                 (h => new AllHotelsIndexViewModel()
                 {
@@ -362,7 +363,7 @@ namespace VacationApp.Services.Core
         }
 
 
-
+        
         public  async Task<bool> DeleteReservation(string Userid, int? id)
         {
             bool issuccessdelete = false;

@@ -63,9 +63,17 @@
                     <a asp-controller="Hotels" asp-action="Edit" asp-route-id="@Model.IdHotel" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
                         <i class="fas fa-edit"></i> Edit
                     </a>
-                    <a asp-controller="Hotels" asp-action="Delete" asp-route-id="@Model.IdHotel" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
+
+                    <a asp-controller="Hotels" asp-action="DeleteHotel"  asp-route-id="@Model.IdHotel" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
                         <i class="fas fa-trash"></i> Delete
-                    </a>
+                    </a> 
+                      @*  <form asp-controller="Hotels" asp-action="DeleteHotel" method="post" class="d-flex justify-content-center align-items-center flex-fill mx-1">
+                        <input type="hidden" name="id" value="@Model.IdHotel" />
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-heart"></i> Delete Hotel
+                        </button>
+                    </form> *@
+                  
                 }
             </div>
         </div> 

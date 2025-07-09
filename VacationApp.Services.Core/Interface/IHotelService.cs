@@ -19,6 +19,10 @@ namespace VacationApp.Services.Core.Interface
         Task<EditHotelModel> GetForEditHotel(int? id, string? Userid);
         Task<bool> EditHotel(string UserId, EditHotelModel edithotelmodel);
 
+        public Task<DeleteHotelIndexModel> GetForDeletedhotel(string userId, int id);
+        public Task<bool> Deletedhotel(string userId, int id);
+      
+
         //Task<bool> AddHotel(string Userid, AddHotel hotelmodel);
 
         //Task<bool> EditHotelModel(string Userid, AddReservation reservationmodel);

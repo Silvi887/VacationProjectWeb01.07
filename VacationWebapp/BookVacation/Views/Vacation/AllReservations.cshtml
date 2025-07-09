@@ -39,8 +39,8 @@
                             {
                                 <form asp-controller="Vacation" asp-action="GetFavorite" method="post" class="d-flex justify-content-center align-items-center flex-fill mx-1">
                                     <input type="hidden" name="id" value="@res.IdReservation" />
-                                    <button type="submit" class="btn btn-success w-100">
-                                        <i class="fas fa-heart"></i> Add to Favorites</button> 
+                                  @*   <button type="submit" class="btn btn-success w-100">
+                                        <i class="fas fa-heart"></i> Add to Favorites</button>  *@
                                   
                                 </form> 
                                 <a asp-controller="Vacation" asp-action="Edit" asp-route-id="@res.IdReservation" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">

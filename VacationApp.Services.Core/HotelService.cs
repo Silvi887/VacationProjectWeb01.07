@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Formats.Tar;
 using Vacation.GConstants;
 using VacationAdd.Data;
 using VacationAdd.Data.Models;
@@ -160,6 +161,48 @@ namespace VacationApp.Services.Core
 
 
             return alltowns;
+        }
+
+
+
+
+        public async Task<DeleteHotelIndexModel> GetForDeletedhotel(string userId, int id)
+        {
+            IdentityUser? currentUser = await UserManager.FindByIdAsync(userId);
+
+
+            Hotel? currenthotel=await dbcontext.Hotels.SingleOrDefaultAsync(h=> h.IdHotel==id);
+
+
+            DeleteHotelIndexModel fordeletedhotel = new DeleteHotelIndexModel()
+            {
+                Idhotel = currenthotel.IdHotel.ToString(),
+                HotelName = currenthotel.HotelName,
+                NameManager = currenthotel.Manager.UserName
+            };
+            return fordeletedhotel;
+
+        }
+        public async Task<bool> Deletedhotel(string userId, int id)
+        {
+
+
+            IdentityUser? currentUser = await UserManager.FindByIdAsync(userId);
+            bool isdeleted = false;
+
+            if (currentUser != null)
+            {
+                var selectedhotel = dbcontext.Hotels.SingleOrDefault(h => h.IdHotel == id);
+
+                selectedhotel.IsDeleted = true;
+
+                isdeleted = true;
+
+                this.dbcontext.SaveChanges();
+
+             }
+
+            return isdeleted;
         }
 
     }

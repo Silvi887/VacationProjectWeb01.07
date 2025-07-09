@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 using Vacation.GConstants;
 using VacationApp.Services.Core.Interface;
 using VacationApp.ViewModels.Hotel;
@@ -38,12 +39,12 @@ namespace BookVacation.Controllers
 
 
             return RedirectToAction(nameof(Index), "Vacation");
-           // return View(allVacations);
+            // return View(allVacations);
         }
 
 
         [HttpGet]
-        public  async Task<IActionResult> AddHotel()
+        public async Task<IActionResult> AddHotel()
         {
 
 
@@ -67,20 +68,23 @@ namespace BookVacation.Controllers
                     IDManager = UserId
                 };
 
-                
+
 
 
                 return View("Views/Vacation/AddHotel.cshtml", addhotel);
 
             }
-             catch (Exception ex)
+            catch (Exception ex)
             {
-            Console.WriteLine(ex.Message);
-            return this.RedirectToAction(nameof(Index));
+                Console.WriteLine(ex.Message);
+                return this.RedirectToAction(nameof(Index));
 
-                }
+            }
 
         }
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> AddHotel(AddHotel viewModelhotel)
@@ -111,7 +115,7 @@ namespace BookVacation.Controllers
 
 
 
-                return RedirectToAction(nameof(Index),"Vacation");
+                return RedirectToAction(nameof(Index), "Vacation");
                 //return View("Views/Vacation/Index.cshtml", viewModelhotel);
             }
             catch (Exception ex)
@@ -121,6 +125,74 @@ namespace BookVacation.Controllers
 
             }
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteHotel(string id) //Delete
+        {
+
+            try
+            {
+
+                int id1 = int.Parse(id);
+                string Userid = this.GetUserId();
+
+                DeleteHotelIndexModel deleted =  await hotelService.GetForDeletedhotel(Userid, id1);
+
+                if (deleted == null)
+                {
+
+
+                    return RedirectToAction("Details", "Vacation");
+                }
+
+
+                
+
+                return View("Views/Vacation/DeleteHotel.cshtml", deleted);
+                return RedirectToAction(nameof(Index), "Vacation");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return this.RedirectToAction("Details", "Vacation");
+
+            }
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteHotel(DeleteHotelIndexModel deletedhotel)
+        {
+
+            try
+            {
+
+                var UserId = this.GetUserId();
+
+                bool isdeleted = false;
+                isdeleted = await hotelService.Deletedhotel(UserId, int.Parse(deletedhotel.Idhotel));
+
+                if (isdeleted == true)
+                {
+                    return RedirectToAction(nameof(Index), "Vacation");
+                }
+
+
+                return this.RedirectToAction("Details", "Vacation");
+            }
+
+              
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return this.RedirectToAction("Details", "Vacation");
+
+            }
+
+            }
+
 
 
         [HttpGet]
