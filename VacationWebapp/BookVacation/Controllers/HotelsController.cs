@@ -260,7 +260,7 @@ namespace BookVacation.Controllers
 
             }
 
-            throw new Exception();
+           
         }
 
        

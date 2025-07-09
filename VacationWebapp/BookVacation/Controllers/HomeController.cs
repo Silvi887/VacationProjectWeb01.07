@@ -25,6 +25,11 @@ namespace BookVacation.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+
+            if (this.IsUserAuthenticated())
+            {
+                return RedirectToAction(nameof(Index), "Vacation");
+            }
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId == null)
