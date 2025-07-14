@@ -117,6 +117,7 @@ body {
 .col-md-8{
     width:60%;
 }
+
 .offset-lg-2 {
     margin-left: 7%;
 }
@@ -129,3 +130,62 @@ body {
     padding: 5px;
     border: 1px solid #ccc;
 }
+
+
+/*Login Buttons*/
+
+.nav-item{
+    display:inline;
+    
+}
+
+.navbar-nav a {
+    color:#ffff;
+}
+
+main{
+    margin-top:7em;
+    height:auto;
+  
+/*
+
+.navbar-nav li{
+    display:inline;
+    margin-left:3px;
+}
+*/
+.login-buttons .nav-link:hover {
+    background-color: #808080c1;
+}
+
+   /*.login-buttons .nav-link {
+    
+  color: white;*/
+    /* background-color: #007bff;*/
+    /*padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+/*
+.navbar-nav{
+flex-direction:row;
+gap:3px;
+}
+
+.login-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+    width: 270px;
+    color: white;
+}
+
+   
+
+
+    .login-buttons form {
+        margin: 0;
+    }*/
