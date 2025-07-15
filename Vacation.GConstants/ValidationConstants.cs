@@ -14,6 +14,9 @@ namespace Vacation.GConstants
         public const int HotelMaxLenght = 100;
         public const int HotelMinLenght = 10;
 
+        public const int HotelAdressMaxLenght = 3000;
+        public const int HotelAdressMinLenght = 10;
+
         public const int RoomMaxLenght = 100;
         public const int RoomMinLenght = 10;
         public const int MaxLenghtGuest = 450;

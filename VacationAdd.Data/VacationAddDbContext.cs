@@ -49,6 +49,12 @@ namespace VacationAdd.Data
                 .HasForeignKey(h => h.IDManager)
                 .OnDelete(DeleteBehavior.Restrict);
 
+              //  entity
+              //.HasOne(e => e.Rooms)
+              //.WithMany(e => e.Hotels)
+              //.HasForeignKey(e => e.TownId)
+              //.OnDelete(DeleteBehavior.Restrict);
+
 
             });
 
@@ -70,6 +76,21 @@ namespace VacationAdd.Data
 
             });
 
+            builder.Entity<HotelRooms>(entity =>
+            {
+
+                entity.HasKey(hr=> new {hr.RoomID,hr.HotelID});
+
+                entity.HasOne(hr => hr.Hotel)
+                .WithMany(hr => hr.hotelRooms)
+                .HasForeignKey(hr => hr.HotelID);
+
+              //  entity.HasOne(hr => hr.Room)
+              //.WithMany(hr => hr.hotelRooms)
+              //.HasForeignKey(hr => hr.HotelID);
+
+            });
+
             builder.Entity<Reservation>(entityres =>
             {
 
@@ -79,9 +100,9 @@ namespace VacationAdd.Data
                         .WithMany()
                         .HasForeignKey(g => g.GuestId);
 
-                entityres.HasOne(r => r.Room)
-                      .WithMany(r => r.Reservations)
-                      .HasForeignKey(r => r.RoomId);
+                //entityres.HasOne(r => r.Room)
+                //      .WithMany(r => r.Reservations)
+                //      .HasForeignKey(r => r.RoomId);
 
                 entityres.HasOne(h => h.Hotel)
                       .WithMany(h => h.Reservations)

@@ -24,7 +24,16 @@ namespace VacationAdd.Data.Models
         public string HotelName { get; set; } = null!;
 
         [Required]
+        public string AddressHotel { get; set; } = null!;
+
+        [Required]
         public int Stars { get; set; }
+
+        //[Required]
+        //public int IdRoom { get; set; }
+
+        [Required]
+        public int RoomCount { get; set; }
 
 
         [Required]
@@ -58,6 +67,7 @@ namespace VacationAdd.Data.Models
         public virtual ICollection<Reservation>  Reservations {get;set;}=new HashSet<Reservation>();
 
         public virtual ICollection<UserHotel> UsersHotels { get; set; } = new HashSet<UserHotel>();
+       public virtual ICollection<HotelRooms> hotelRooms { get; set; } = new HashSet<HotelRooms>();
 
 
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VacationAdd.Data;
 
@@ -11,9 +12,11 @@ using VacationAdd.Data;
 namespace VacationAdd.Data.Migrations
 {
     [DbContext(typeof(VacationAddDbContext))]
-    partial class VacationAddDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250715223038_DbMigration1")]
+    partial class DbMigration1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

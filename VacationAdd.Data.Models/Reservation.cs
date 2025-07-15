@@ -26,9 +26,11 @@ namespace VacationAdd.Data.Models
         [Required]
         public int AdultsCount { get; set; }
 
-
         [Required]
         public int ChildrenCount { get; set; }
+
+        [Required]
+        public string BookedRoomsids { get; set; }
 
 
         [Required]

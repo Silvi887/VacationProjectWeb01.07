@@ -22,6 +22,19 @@ namespace VacationAdd.Data.Models
         [MinLength(ValidationConstants.TownMinLenght)]
         public string NameRoom { get; set; }
 
-        public virtual ICollection<Reservation> Reservations { get; set; } = new HashSet<Reservation>();
+
+        [Required]
+        public int CapacityAdultsCount { get; set; }
+
+        [Required]
+        public int CapacityChildrenCount { get; set; }
+
+        public string RoomSize { get; set; }
+
+        public string? View { get; set; } = "";
+
+        public string? Facilities { get; set; } = "";
+
+
     }
 }

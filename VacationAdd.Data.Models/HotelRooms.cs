@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,19 +8,22 @@ using System.Threading.Tasks;
 
 namespace VacationAdd.Data.Models
 {
-    public class UserHotel
+    public class HotelRooms
     {
 
 
-        [Required]
-        public string UserId { get; set; } = null!;
-        public IdentityUser User { get; set; } = null!;
+        [Key]
+        // [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int HotelRoomID { get; set; }
 
-        [Required]
         public int HotelID { get; set; }
 
         [ForeignKey(nameof(HotelID))]
-        public Hotel Hotel { get; set; } = null!;
+        public Hotel Hotel { get;set; }
+
+        public int RoomID { get; set; }
+
+        [ForeignKey(nameof(RoomID))]
+        public Room Room { get; set; }
     }
 }
-
