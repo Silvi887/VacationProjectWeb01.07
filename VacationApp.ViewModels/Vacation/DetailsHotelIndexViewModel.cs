@@ -19,8 +19,8 @@ namespace VacationApp.ViewModels.Vacation
         [Required]
         public string HotelName { get; set; } = null!;
 
-        [Required]
-        public int Stars { get; set; }
+        //[Required]
+        //public int Stars { get; set; }
 
 
         [Required]
@@ -31,7 +31,7 @@ namespace VacationApp.ViewModels.Vacation
 
 
         [Required]
-        public string HotelInfo { get; set; } = null!;
+        public string VillaInfo { get; set; } = null!;
 
         [Required]
         public string GuestId { get; set; } = null!;

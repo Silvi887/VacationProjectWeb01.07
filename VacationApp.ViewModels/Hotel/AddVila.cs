@@ -12,7 +12,7 @@ using VacationApp.ViewModels.Vacation;
 
 namespace VacationApp.ViewModels.Hotel
 {
-    public class AddHotel
+    public class AddVila
     {
 
 
@@ -21,25 +21,47 @@ namespace VacationApp.ViewModels.Hotel
         [Required]
         [MaxLength(ValidationConstants.HotelMaxLenght)]
         [MinLength(ValidationConstants.HotelMinLenght)]
-        public string HotelName { get; set; } = null!;
+        public string VilaName { get; set; } = null!;
+
+        //[Required]
+        //public int Stars { get; set; }
 
         [Required]
-        public int Stars { get; set; }
+        public string VillaAddress { get; set; } = null!;
 
+        public string? ImageUrl { get; set; }
 
         [Required]
         public int NumberofRooms { get; set; }
 
+        [Required]
+        public int CountAdults { get; set; }
 
-        public string IdsRooms { get; set; } = "";
+        [Required]
+        public int CountChildren { get; set; }
 
-        public string? ImageUrl { get; set; }
+
+
+
+        //public string IdsRooms { get; set; } = "";
+
+        [Required]
+        public int Bedrooms { get; set; } = 1;
+
+        [Required]
+        public int Bathrooms { get; set; } = 1;
+
+        [Required]
+        public string Area { get; set; } = null!;
+
+        [Required]
+        public bool Parking { get; set; } = true;
 
 
         [Required]
         [MaxLength(ValidationConstants.DescriptionMaxLenght)]
         [MinLength(ValidationConstants.DescriptionMinLenght)]
-        public string HotelInfo { get; set; } = "";
+        public string VillaInfo { get; set; } = "";
 
 
         [Required]
@@ -48,8 +70,7 @@ namespace VacationApp.ViewModels.Hotel
         [Required]
         public string TownId { get; set; } = "";
 
-        [Required]
-        public string AddressHotel { get; set; } = null!;
+
 
 
         //[ForeignKey(nameof(IDManager))]
@@ -59,6 +80,6 @@ namespace VacationApp.ViewModels.Hotel
         public IEnumerable<TownModel> ListTowns { get; set; } = null!;
 
 
-        public IEnumerable<RoomViewModel> roomdrp = null!;
+        public IEnumerable<PlaceViewModel> placedrp = null!;
     }
 }

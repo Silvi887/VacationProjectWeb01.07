@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace VacationApp.ViewModels.Vacation
 {
-    public class AllHotelsIndexViewModel
+    public class AllVillasIndexViewModel
     {
         [Key]
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdHotel { get; set; }
 
 
-        public string HotelName { get; set; } = null!;
+        public string VillaName { get; set; } = null!;
 
         public int Stars { get; set; }
 
-        public string HotelInfo { get; set; } = null!;
+        public string VillaInfo { get; set; } = null!;
 
         public int NumberofRooms { get; set; }
 

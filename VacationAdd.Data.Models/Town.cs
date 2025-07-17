@@ -21,6 +21,6 @@ namespace VacationAdd.Data.Models
         [MinLength(ValidationConstants.TownMinLenght)]
         public string NameTown { get; set; } = null!;
 
-        public virtual ICollection<Hotel> Hotels { get; set; } = new HashSet<Hotel>();
+        public virtual ICollection<VillaPenthhouse> VillaPenthhouses { get; set; } = new HashSet<VillaPenthhouse>();
     }
 }

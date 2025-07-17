@@ -19,7 +19,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <h3 class="card-title text-center"> Hotel:@Model.HotelName</h3>
+                <h3 class="card-title text-center"> Hotel:@Model.VillaName</h3>
                 <p class="mb-0"><strong>Guest:</strong> @Model.GuestFirstName</p>
                   <p class="mb-0"><strong>StartDate:</strong> @Model.StartDate</p>
                 <p class="mb-0"><strong>EndDate:</strong> @Model.EndDate</p>
@@ -32,7 +32,7 @@
                     <input type="hidden" asp-for="@Model.IdReservation" />
                     <input type="hidden" asp-for="@Model.StartDate" />
                     <input type="hidden" asp-for="@Model.EndDate" />
-                    <input type="hidden" asp-for="@Model.HotelName" />
+                    <input type="hidden" asp-for="@Model.VillaName" />
                     <input type="hidden" asp-for="@Model.GuestFirstName" />
                     <button type="submit" class="btn btn-danger">
                         <i class="fas fa-trash"></i> Confirm Delete

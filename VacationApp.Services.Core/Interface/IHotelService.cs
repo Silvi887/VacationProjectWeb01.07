@@ -11,10 +11,12 @@ namespace VacationApp.Services.Core.Interface
     public interface IHotelService
     {
 
-        Task<bool> AddHotelModel(string Userid, AddHotel hotelmodel);
+        Task<bool> AddHotelModel(string Userid, AddVila hotelmodel);
 
        
         Task<IEnumerable<TownModel>> TownViewDataAsync();
+
+        Task<IEnumerable<PlaceViewModel>> PlaceViewDataAsync();
 
         Task<EditHotelModel> GetForEditHotel(int? id, string? Userid);
         Task<bool> EditHotel(string UserId, EditHotelModel edithotelmodel);

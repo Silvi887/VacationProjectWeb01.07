@@ -4,7 +4,7 @@
 } *@
 
 @using VacationApp.ViewModels.Vacation
-@model List<AllHotelsIndexViewModel>
+@model List<AllVillasIndexViewModel>
 
 
 <div class="text-center">
@@ -26,9 +26,9 @@
 						<div class="inner">
 							<h2>
 
-								<p>@hotel.HotelName</p>
+								<p>@hotel.VillaName</p>
 							</h2>
-							<p>@hotel.HotelInfo</p>
+							<p>@hotel.VillaInfo</p>
 
 							<div class="classBtns">
 
@@ -39,7 +39,7 @@
 								@if (User?.Identity?.IsAuthenticated == true && ViewBag.EmailConfirmed == false)
 								{
 					
-								<a asp-controller="Vacation" asp-action="Add" asp-route-id="@($"{hotel.IdHotel},{hotel.HotelName}")" class="btn btn-info w-70">
+								<a asp-controller="Vacation" asp-action="Add" asp-route-id="@($"{hotel.IdHotel},{hotel.VillaName}")" class="btn btn-info w-70">
 									<i class="fas fa-info-circle"></i> Make reservation
 								</a>
 

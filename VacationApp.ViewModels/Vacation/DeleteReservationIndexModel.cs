@@ -21,7 +21,7 @@ namespace VacationApp.ViewModels.Vacation
         [Required]
         public string GuestFirstName { get; set; } = "";
 
-        public string HotelName { get; set; } = "";
+        public string VillaName { get; set; } = "";
 
     }
 }

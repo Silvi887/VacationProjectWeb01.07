@@ -46,7 +46,7 @@ namespace VacationApp.Services.Core
         //    throw new NotImplementedException();
         //}
 
-        public async Task<bool> AddHotelModel(string Userid, AddHotel hotelmodel)
+        public async Task<bool> AddHotelModel(string Userid, AddVila hotelmodel)
         {
 
             try
@@ -57,22 +57,22 @@ namespace VacationApp.Services.Core
 
                 if (user1 != null)
                 {
-                    Hotel currenthotel = new Hotel()
+                    VillaPenthhouse currenthotel = new VillaPenthhouse()
                     {
 
-                        HotelName = hotelmodel.HotelName,
-                        Stars = hotelmodel.Stars,
-                        RoomCapacityCount = hotelmodel.NumberofRooms,
-                        RoomBookedRooms = 0,
+                        NameVilla = hotelmodel.VilaName,
+                       // Stars = hotelmodel.Stars,
+                        CountRooms = hotelmodel.NumberofRooms,
+                        //RoomBookedRooms = 0,
                         ImageUrl = hotelmodel.ImageUrl,
-                        HotelInfo = hotelmodel.HotelInfo,
+                        VillaInfo = hotelmodel.VillaInfo,
                         IDManager = user1.Id,
                         TownId= int.Parse(hotelmodel.TownId),
-                        AddressHotel= hotelmodel.AddressHotel,
-                        IdsRooms=""
+                        VillaAddress= hotelmodel.VillaAddress,
+                        //IdsRooms=""
 
                     };
-                    this.dbcontext.Hotels.AddAsync(currenthotel);
+                    this.dbcontext.VillaPenthHouse.AddAsync(currenthotel);
                     this.dbcontext.SaveChanges();
 
                     operationResult = true;
@@ -96,15 +96,15 @@ namespace VacationApp.Services.Core
 
             bool isValidhotelop = false;
             IdentityUser? currentUser= await UserManager.FindByIdAsync(UserId);
-            Hotel? currenthotel = await  dbcontext.Hotels
-                                    .FirstOrDefaultAsync(h => h.IdHotel == int.Parse(edithotelmodel.Idhotel));
+            VillaPenthhouse? currenthotel = await  dbcontext.VillaPenthHouse
+                                    .FirstOrDefaultAsync(h => h.IdVilla == int.Parse(edithotelmodel.Idhotel));
 
             if (currentUser != null)
             {
 
-                currenthotel.HotelName = edithotelmodel.HotelName;
-                currenthotel.Stars = edithotelmodel.Stars;
-                currenthotel.RoomCapacityCount = edithotelmodel.NumberofRooms;
+                currenthotel.NameVilla = edithotelmodel.HotelName;
+                //currenthotel.Stars = edithotelmodel.Stars;
+                currenthotel.CountRooms = edithotelmodel.NumberofRooms;
                 //currenthotel.IdHotel = int.Parse(edithotelmodel.Idhotel);
                 currenthotel.IDManager = edithotelmodel.IDManager;
 
@@ -123,8 +123,8 @@ namespace VacationApp.Services.Core
 
 
             IdentityUser? currentUser = await UserManager.FindByIdAsync(Userid);
-            Hotel? currenthotel = await dbcontext.Hotels.Include(h=> h.Manager)
-                                        .FirstOrDefaultAsync(h => h.IdHotel == id);
+            VillaPenthhouse? currenthotel = await dbcontext.VillaPenthHouse.Include(h=> h.Manager)
+                                        .FirstOrDefaultAsync(h => h.IdVilla == id);
 
             EditHotelModel edithotelmodel = null;
             if(currentUser != null)
@@ -132,13 +132,13 @@ namespace VacationApp.Services.Core
 
                 edithotelmodel = new EditHotelModel()
                 {
-                    HotelName = currenthotel.HotelName,
-                    Stars = currenthotel.Stars,
-                    NumberofRooms = currenthotel.RoomCapacityCount,
-                    Idhotel = currenthotel.IdHotel.ToString(),
+                    HotelName = currenthotel.NameVilla,
+                    //Stars = currenthotel.Stars,
+                    NumberofRooms = currenthotel.CountRooms,
+                    Idhotel = currenthotel.IdVilla.ToString(),
                     IDManager = currenthotel.IDManager,
                     ImageUrl= currenthotel.ImageUrl,
-                    HotelInfo= currenthotel.HotelInfo
+                    HotelInfo= currenthotel.VillaInfo
                    
                    
 
@@ -167,6 +167,23 @@ namespace VacationApp.Services.Core
             return alltowns;
         }
 
+        public async Task<IEnumerable<PlaceViewModel>> PlaceViewDataAsync()  //padashto menu gradove
+        {
+
+            IEnumerable<PlaceViewModel> alltowns = await dbcontext.TypePlaces
+             .AsNoTracking()
+             .Select(r => new PlaceViewModel()
+             {
+                 Id = r.PlaceId,
+                 TypePlace = r.NamePlace
+             }
+           ).ToListAsync();
+
+
+            return alltowns;
+        }
+
+
 
 
 
@@ -175,13 +192,13 @@ namespace VacationApp.Services.Core
             IdentityUser? currentUser = await UserManager.FindByIdAsync(userId);
 
 
-            Hotel? currenthotel=await dbcontext.Hotels.SingleOrDefaultAsync(h=> h.IdHotel==id);
+            VillaPenthhouse? currenthotel=await dbcontext.VillaPenthHouse.SingleOrDefaultAsync(h=> h.IdVilla==id);
 
 
             DeleteHotelIndexModel fordeletedhotel = new DeleteHotelIndexModel()
             {
-                Idhotel = currenthotel.IdHotel.ToString(),
-                HotelName = currenthotel.HotelName,
+                Idhotel = currenthotel.IdVilla.ToString(),
+                HotelName = currenthotel.NameVilla,
                 NameManager = currenthotel.Manager.UserName
             };
             return fordeletedhotel;
@@ -196,7 +213,7 @@ namespace VacationApp.Services.Core
 
             if (currentUser != null)
             {
-                var selectedhotel = dbcontext.Hotels.SingleOrDefault(h => h.IdHotel == id);
+                var selectedhotel = dbcontext.VillaPenthHouse.SingleOrDefault(h => h.IdVilla == id);
 
                 selectedhotel.IsDeleted = true;
 

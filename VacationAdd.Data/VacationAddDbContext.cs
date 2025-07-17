@@ -20,28 +20,36 @@ namespace VacationAdd.Data
 
 
         public DbSet<Town> Towns { get; set; } = null!;
-        public DbSet<Hotel> Hotels { get; set; } = null!;
+        public DbSet<VillaPenthhouse> VillaPenthHouse { get; set; } = null!;
 
-        public DbSet<Room> Rooms { get; set; } =  null!;
+        //public DbSet<Room> Rooms { get; set; } =  null!;
 
-        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Reservation> Reservations { get; set; } = null!;
 
-        public DbSet<UserHotel> UserHotels { get; set; }
+        public DbSet<UserVilla> UsersVillas { get; set; } = null!;
+
+        public DbSet<TypePlace> TypePlaces { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
 
-            builder.Entity<Hotel>(entity =>
+            builder.Entity<VillaPenthhouse>(entity =>
             {
 
-                entity.HasKey(h => h.IdHotel);
+                entity.HasKey(h => h.IdVilla);
 
                 entity
                 .HasOne(e => e.Town)
-                .WithMany(e => e.Hotels)
+                .WithMany(e => e.VillaPenthhouses)
                 .HasForeignKey(e => e.TownId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+                entity
+             .HasOne(e => e.TypePlace)
+             .WithMany(e => e.VillaPenthhouses)
+             .HasForeignKey(e => e.IdPlace)
+             .OnDelete(DeleteBehavior.Restrict);
 
 
                 entity.HasOne(h => h.Manager)
@@ -58,14 +66,14 @@ namespace VacationAdd.Data
 
             });
 
-            builder.Entity<UserHotel>(entity =>
+            builder.Entity<UserVilla>(entity =>
             {
-                entity.HasKey(ur => new { ur.UserId, ur.HotelID });
+                entity.HasKey(ur => new { ur.UserId, ur.VillaId });
 
                 entity
-             .HasOne(e => e.Hotel)
-             .WithMany(e => e.UsersHotels)
-             .HasForeignKey(e => e.HotelID)
+             .HasOne(e => e.VillaPenthhouse)
+             .WithMany(e => e.UserVillas)
+             .HasForeignKey(e => e.VillaId)
              .OnDelete(DeleteBehavior.Restrict);
 
                 entity
@@ -76,20 +84,20 @@ namespace VacationAdd.Data
 
             });
 
-            builder.Entity<HotelRooms>(entity =>
-            {
+            //builder.Entity<HotelRooms>(entity =>
+            //{
 
-                entity.HasKey(hr=> new {hr.RoomID,hr.HotelID});
+            //    entity.HasKey(hr=> new {hr.RoomID,hr.HotelID});
 
-                entity.HasOne(hr => hr.Hotel)
-                .WithMany(hr => hr.hotelRooms)
-                .HasForeignKey(hr => hr.HotelID);
+            //    entity.HasOne(hr => hr.Hotel)
+            //    .WithMany(hr => hr.hotelRooms)
+            //    .HasForeignKey(hr => hr.HotelID);
 
-              //  entity.HasOne(hr => hr.Room)
-              //.WithMany(hr => hr.hotelRooms)
-              //.HasForeignKey(hr => hr.HotelID);
+            //  //  entity.HasOne(hr => hr.Room)
+            //  //.WithMany(hr => hr.hotelRooms)
+            //  //.HasForeignKey(hr => hr.HotelID);
 
-            });
+            //});
 
             builder.Entity<Reservation>(entityres =>
             {
@@ -104,9 +112,9 @@ namespace VacationAdd.Data
                 //      .WithMany(r => r.Reservations)
                 //      .HasForeignKey(r => r.RoomId);
 
-                entityres.HasOne(h => h.Hotel)
+                entityres.HasOne(h => h.VillaPenthhouse)
                       .WithMany(h => h.Reservations)
-                      .HasForeignKey(h => h.HotelId);
+                      .HasForeignKey(h => h.VillaId);
 
 
             });

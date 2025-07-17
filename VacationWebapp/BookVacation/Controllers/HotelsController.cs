@@ -29,7 +29,7 @@ namespace BookVacation.Controllers
         public async Task<IActionResult> Index()
         {
             string? UserId = this.GetUserId();
-            IEnumerable<AllHotelsIndexViewModel> allVacations = await this.vacationService.GetAllHotelsAsync(UserId);
+            IEnumerable<AllVillasIndexViewModel> allVacations = await this.vacationService.GetAllHotelsAsync(UserId);
 
 
             var user = await UserManager.FindByIdAsync(UserId);
@@ -52,10 +52,10 @@ namespace BookVacation.Controllers
             try
             {
 
-                AddHotel addhotel = new AddHotel()
+                AddVila addhotel = new AddVila()
                 {
 
-                    HotelName = "",
+                    VilaName = "",
 
                     //Stars { get; set; }
 
@@ -65,6 +65,7 @@ namespace BookVacation.Controllers
 
                     //HotelInfo { get; set; } = null!;
                     ListTowns = (IEnumerable<TownModel>)await this.hotelService.TownViewDataAsync(),
+                    placedrp= (IEnumerable<PlaceViewModel>)await this.hotelService.PlaceViewDataAsync(),
                     IDManager = UserId
                 };
 
@@ -87,7 +88,7 @@ namespace BookVacation.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddHotel(AddHotel viewModelhotel)
+        public async Task<IActionResult> AddHotel(AddVila viewModelhotel)
         {
             try
             {

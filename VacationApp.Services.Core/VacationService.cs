@@ -45,7 +45,7 @@ namespace VacationApp.Services.Core
 
                 //string? UserId = this.GetUserId();
                 int idroom = int.Parse(reservationmodel.RoomId);
-                var Room = this.Dbcontext.Rooms.FindAsync(idroom);
+               // var Room = this.Dbcontext.Rooms.FindAsync(idroom);
 
                 if (user1 != null)
                 {
@@ -61,8 +61,8 @@ namespace VacationApp.Services.Core
 
                         //Guest { get; set; } = null!;
 
-                        RoomId = int.Parse(reservationmodel.RoomId),
-                        HotelId = int.Parse(reservationmodel.HotelId),
+                      //  RoomId =1,// int.Parse(reservationmodel.RoomId),
+                        VillaId = int.Parse(reservationmodel.HotelId),
                         FirstName = reservationmodel.GuestFirstName,
                         LastName = reservationmodel.LastNameG,
                         DateOfBirth = DateTime.ParseExact(reservationmodel.DateofBirth, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None),
@@ -123,7 +123,7 @@ namespace VacationApp.Services.Core
             if (currentUser != null)
             {
 
-                Reservation? curentreservation = await Dbcontext.Reservations.Include(r => r.Hotel)
+                Reservation? curentreservation = await Dbcontext.Reservations.Include(r => r.VillaPenthhouse)
                                               .FirstOrDefaultAsync(r => r.IdReservation == id);
 
                 reservation1 = new EditReservation()
@@ -137,9 +137,9 @@ namespace VacationApp.Services.Core
 
                     ChildrenCount = curentreservation.ChildrenCount,
 
-                    RoomId = curentreservation.RoomId.ToString(),
-                    HotelId = curentreservation.HotelId.ToString(),
-                    HotelName = curentreservation.Hotel.HotelName,
+                    //RoomId = curentreservation.RoomId.ToString(),
+                    HotelId = curentreservation.VillaId.ToString(),
+                    HotelName = curentreservation.VillaPenthhouse.NameVilla,
                     GuestFirstName = curentreservation.FirstName,
                     LastNameG = curentreservation.LastName,
                     DateofBirth = curentreservation.DateOfBirth.ToString("yyyy-MM-dd"),
@@ -166,7 +166,7 @@ namespace VacationApp.Services.Core
             Reservation? CurrentReservation = await Dbcontext.Reservations
                                     .FindAsync(int.Parse(editreservation.IdReservation));
 
-            Room? Room = await Dbcontext.Rooms.FindAsync(int.Parse(editreservation.RoomId));
+           // Room? Room = await Dbcontext.Rooms.FindAsync(int.Parse(editreservation.RoomId));
 
 
             if (userid != null && CurrentReservation != null)
@@ -177,8 +177,8 @@ namespace VacationApp.Services.Core
                 CurrentReservation.AdultsCount = editreservation.AdultsCount;
                 CurrentReservation.ChildrenCount = editreservation.ChildrenCount;
                 CurrentReservation.GuestId = userid.Id;
-                CurrentReservation.RoomId = Room.IdRoom;
-                CurrentReservation.HotelId = int.Parse(editreservation.HotelId);
+               // CurrentReservation.RoomId = Room.IdRoom;
+                CurrentReservation.VillaId = int.Parse(editreservation.HotelId);
                 CurrentReservation.FirstName = editreservation.GuestFirstName;
                 CurrentReservation.LastName = editreservation.LastNameG;
                 CurrentReservation.DateOfBirth = DateTime.ParseExact(editreservation.DateofBirth, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None);
@@ -197,19 +197,19 @@ namespace VacationApp.Services.Core
             // throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<AllHotelsIndexViewModel>> GetAllHotelsAsync(string? UserId)
+        public async Task<IEnumerable<AllVillasIndexViewModel>> GetAllHotelsAsync(string? UserId)
         {
-            IEnumerable<AllHotelsIndexViewModel> allhotels = await Dbcontext.Hotels
+            IEnumerable<AllVillasIndexViewModel> allhotels = await Dbcontext.VillaPenthHouse
                 .AsNoTracking()
                 .Where(h=> h.IsDeleted == false)
                 .Select
-                (h => new AllHotelsIndexViewModel()
+                (h => new AllVillasIndexViewModel()
                 {
-                    IdHotel = h.IdHotel,
-                    HotelName = h.HotelName,
-                    Stars = h.Stars,
-                    HotelInfo = h.HotelInfo,
-                    NumberofRooms = h.RoomCapacityCount,
+                    IdHotel = h.IdVilla,
+                    VillaName = h.NameVilla,
+                   // Stars = h.Stars,
+                    VillaInfo = h.VillaInfo,
+                    NumberofRooms = h.CountRooms,
                     ImageUrl = h.ImageUrl
                 }).ToListAsync();
 
@@ -224,13 +224,13 @@ namespace VacationApp.Services.Core
 
             IdentityUser? user = await userManager.FindByIdAsync(Userid);
             var reservations =await  Dbcontext.Reservations
-                                .Include(r=> r.Hotel)
+                                .Include(r=> r.VillaPenthhouse)
                                 .AsNoTracking()
                                 .Where( r =>r.IsDeleted == false)   /* r.GuestId == Userid &&*/
                                 .Select(r =>new AllReservationsViewModel()
                                 {
                                     IdReservation= r.IdReservation,
-                                    HotelName=r.Hotel.HotelName,
+                                    HotelName=r.VillaPenthhouse.NameVilla,
                                     StartDate = r.StartDate.ToString(ValidationConstants.DateFormat),
                                     EndDate= r.EndDate.ToString(ValidationConstants.DateFormat),
                                     IsUserGuest= user!=null?  r.GuestId== user.Id:false,
@@ -254,26 +254,26 @@ namespace VacationApp.Services.Core
 
             IdentityUser? currentUser = await userManager.FindByIdAsync(UserId);
             DetailsHotelIndexViewModel? hoteldetails = null;
-            Hotel? CurrentDetailshotel = await Dbcontext.Hotels
+            VillaPenthhouse? CurrentDetailsvila= await Dbcontext.VillaPenthHouse
                 .Include(h=> h.Town)
                 .Include(h=> h.Manager)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(h => h.IdHotel == id.Value);
+                .FirstOrDefaultAsync(h => h.IdVilla == id.Value);
 
 
-            if (CurrentDetailshotel !=null)
+            if (CurrentDetailsvila != null)
             {
                  hoteldetails = new DetailsHotelIndexViewModel()
                 {
-                    IdHotel= CurrentDetailshotel.IdHotel,
-                    HotelName = CurrentDetailshotel.HotelName,
-                    Stars = CurrentDetailshotel.Stars,
-                    NumberofRooms = CurrentDetailshotel.RoomCapacityCount,
-                    ImageUrl = CurrentDetailshotel.ImageUrl,
-                    HotelInfo = CurrentDetailshotel.HotelInfo,
-                    TownName = CurrentDetailshotel.Town.NameTown,
-                    ManagerId=CurrentDetailshotel.IDManager,
-                    IsManager= currentUser != null ? currentUser.Id == CurrentDetailshotel.IDManager : false,
+                    IdHotel= CurrentDetailsvila.IdVilla,
+                    HotelName = CurrentDetailsvila.NameVilla,
+                   // Stars = CurrentDetailsvila.Stars,
+                    NumberofRooms = CurrentDetailsvila.CountRooms,
+                    ImageUrl = CurrentDetailsvila.ImageUrl,
+                    VillaInfo = CurrentDetailsvila.VillaInfo,
+                    TownName = CurrentDetailsvila.Town.NameTown,
+                    ManagerId=CurrentDetailsvila.IDManager,
+                    IsManager= currentUser != null ? currentUser.Id == CurrentDetailsvila.IDManager : false,
 
                 };
 
@@ -300,20 +300,20 @@ namespace VacationApp.Services.Core
         //  //  throw new NotImplementedException();
         //}
 
-       public async Task<IEnumerable<RoomViewModel>> RoomViewDataAsync()
+       public async Task<IEnumerable<PlaceViewModel>> RoomViewDataAsync()
         {
 
-            IEnumerable<RoomViewModel> allrooms = await Dbcontext.Rooms
+            IEnumerable<PlaceViewModel> allplaces = await Dbcontext.TypePlaces
              .AsNoTracking()
-             .Select(r => new RoomViewModel()
+             .Select(r => new PlaceViewModel()
              {
-                 Id = r.IdRoom,
-                 RoomType = r.NameRoom
+                 Id = r.PlaceId,
+                 TypePlace = r.NamePlace
              }
            ).ToListAsync();
 
 
-            return allrooms;
+            return allplaces;
         }
 
         public async Task<DeleteReservationIndexModel> GetForDeleteReservation(int? id, string? Userid)
@@ -326,7 +326,7 @@ namespace VacationApp.Services.Core
             if (currentUser != null)
             {
 
-                Reservation? curentreservation = await Dbcontext.Reservations.Include(r => r.Hotel)
+                Reservation? curentreservation = await Dbcontext.Reservations.Include(r => r.VillaPenthhouse)
 
                     .FirstOrDefaultAsync(r => r.IdReservation == id);
 
@@ -339,7 +339,7 @@ namespace VacationApp.Services.Core
                     EndDate = curentreservation.StartDate.ToString("yyyy-MM-dd"),
                     IdReservation= curentreservation.IdReservation,
                     GuestFirstName= curentreservation.FirstName+" "+ curentreservation.LastName,
-                    HotelName= curentreservation.Hotel.HotelName
+                    VillaName= curentreservation.VillaPenthhouse.NameVilla
 
                     //AdultsCount = curentreservation.AdultsCount,
 
@@ -395,15 +395,15 @@ namespace VacationApp.Services.Core
 
             if (curentuser != null)
             {
-                favoritehotel =await Dbcontext.UserHotels
-                    .Where(f => f.UserId.ToLower() == curentuser.Id.ToLower() && f.Hotel.IsDeleted==false)
-                    .Include(f=> f.Hotel.Town)
+                favoritehotel =await Dbcontext.UsersVillas
+                    .Where(f => f.UserId.ToLower() == curentuser.Id.ToLower() && f.VillaPenthhouse.IsDeleted==false)
+                    .Include(f=> f.VillaPenthhouse.Town)
                      .Select(h => new FavoriteHotelIndexViewModel()
                      {
-                         IdHotel= h.HotelID,
-                         TownName=h.Hotel.Town.NameTown,
-                         ImageUrl= h.Hotel.ImageUrl,
-                         HotelName=h.Hotel.HotelName
+                         IdHotel= h.VillaId,
+                         TownName=h.VillaPenthhouse.Town.NameTown,
+                         ImageUrl= h.VillaPenthhouse.ImageUrl,
+                         HotelName=h.VillaPenthhouse.NameVilla
                      }).ToArrayAsync();
 
                 issuccessfavorite=true;
@@ -417,30 +417,30 @@ namespace VacationApp.Services.Core
            // throw new NotImplementedException();
         }
 
-        public async Task<bool> FavoriteHotels(string Userid, int idhotel)
+        public async Task<bool> FavoriteHotels(string Userid, int idvilla)
         {
 
             bool issuccessfavorite = false;
             IdentityUser? curentuser = await userManager.FindByIdAsync(Userid);
 
-            Hotel? currentHotel = await Dbcontext.Hotels.FindAsync(idhotel);
+            VillaPenthhouse? currentvila = await Dbcontext.VillaPenthHouse.FindAsync(idvilla);
 
-            if (curentuser != null && currentHotel != null) /* && currentHotel.IDManager != curentuser.Id */
+            if (curentuser != null && currentvila != null) /* && currentHotel.IDManager != curentuser.Id */
             {
-                UserHotel CurrentHotel = await Dbcontext.UserHotels.SingleOrDefaultAsync(h => h.HotelID == currentHotel.IdHotel && h.UserId== curentuser.Id);
+                UserVilla CurrentVila = await Dbcontext.UsersVillas.SingleOrDefaultAsync(h => h.VillaId == currentvila.IdVilla && h.UserId== curentuser.Id);
 
 
-                if (CurrentHotel == null)
+                if (CurrentVila == null)
                 {
 
-                    CurrentHotel = new UserHotel()
+                    CurrentVila = new UserVilla()
                     {
                         UserId= curentuser.Id,
-                        HotelID=idhotel
-                       // HotelID = idhotel,
+                        VillaId= idvilla
+                        // HotelID = idhotel,
                         //UserId = curentuser.Id
                     };
-                 await Dbcontext.UserHotels.AddAsync(CurrentHotel);
+                 await Dbcontext.UsersVillas.AddAsync(CurrentVila);
                 }
              
                 await this.Dbcontext.SaveChangesAsync();
@@ -457,10 +457,10 @@ namespace VacationApp.Services.Core
         {
             bool isdeleted = false;
             IdentityUser? curentuser = await userManager.FindByIdAsync(Userid);
-            Hotel? hoteltoremove = await Dbcontext.Hotels.SingleOrDefaultAsync(h => h.IdHotel == id);
-            if(curentuser != null && hoteltoremove != null)
+            VillaPenthhouse? vilatoremove = await Dbcontext.VillaPenthHouse.SingleOrDefaultAsync(h => h.IdVilla == id);
+            if(curentuser != null && vilatoremove != null)
             {
-                hoteltoremove.IsDeleted = true;
+                vilatoremove.IsDeleted = true;
 
 
                 await this.Dbcontext.SaveChangesAsync();

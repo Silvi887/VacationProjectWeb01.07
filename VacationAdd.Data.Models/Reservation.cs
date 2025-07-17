@@ -29,8 +29,8 @@ namespace VacationAdd.Data.Models
         [Required]
         public int ChildrenCount { get; set; }
 
-        [Required]
-        public string BookedRoomsids { get; set; }
+        //[Required]
+        //public string BookedRoomsids { get; set; }
 
 
         [Required]
@@ -62,17 +62,17 @@ namespace VacationAdd.Data.Models
         [Required]
         public string NumberOfPhone { get; set; } = null!;
 
+        //[Required]
+        //public int RoomId { get; set; }
+
+        //[ForeignKey(nameof(RoomId))]
+        //public virtual Room Room { get; set; } = null!;
+
         [Required]
-        public int RoomId { get; set; }
+        public int VillaId { get; set; }
 
-        [ForeignKey(nameof(RoomId))]
-        public virtual Room Room { get; set; } = null!;
-
-        [Required]
-        public int HotelId { get; set; }
-
-        [ForeignKey(nameof(HotelId))]
-        public virtual Hotel Hotel { get; set; } = null!;
+        [ForeignKey(nameof(VillaId))]
+        public virtual VillaPenthhouse VillaPenthhouse { get; set; } = null!;
 
         public bool IsDeleted { get; set; } = false;
 

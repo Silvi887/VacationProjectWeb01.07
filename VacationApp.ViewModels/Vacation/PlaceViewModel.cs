@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace VacationApp.ViewModels.Vacation
 {
-    public class RoomViewModel
+    public class PlaceViewModel
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public string RoomType { get; set; } = null!;
+        public string TypePlace { get; set; } = null!;
     }
 }

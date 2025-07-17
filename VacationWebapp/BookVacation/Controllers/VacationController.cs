@@ -31,7 +31,7 @@ namespace BookVacation.Controllers
         {
 
             string? UserId = this.GetUserId();
-            IEnumerable<AllHotelsIndexViewModel> AllHotels = await this.vacationService.GetAllHotelsAsync(UserId);
+            IEnumerable<AllVillasIndexViewModel> AllHotels = await this.vacationService.GetAllHotelsAsync(UserId);
 
             var user = await UserManager.FindByIdAsync(UserId);
 
@@ -86,7 +86,7 @@ namespace BookVacation.Controllers
                     // HotelName=
                     StartDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
                     EndDate = DateTime.UtcNow.ToString("yyyy-MM-dd"),
-                    roomdrp = (IEnumerable<RoomViewModel>)await this.vacationService.RoomViewDataAsync(),
+                    roomdrp = (IEnumerable<PlaceViewModel>)await this.vacationService.RoomViewDataAsync(),
                     DateofBirth = DateTime.UtcNow.ToString("yyyy-MM-dd")
 
                 };
@@ -128,7 +128,7 @@ namespace BookVacation.Controllers
                 }
 
 
-                inAddReservation.roomdrp = (IEnumerable<RoomViewModel>)await this.vacationService.RoomViewDataAsync();
+                inAddReservation.roomdrp = (IEnumerable<PlaceViewModel>)await this.vacationService.RoomViewDataAsync();
                 ViewBag.SuccessMessage = "Successful reservation!";
                 return View("Views/Vacation/AddReservation.cshtml", inAddReservation);
 
@@ -289,7 +289,7 @@ namespace BookVacation.Controllers
             int id1 =int.Parse(id);
             var UserId = this.GetUserId();
             EditReservation currentreservation = await vacationService.GetForEditReservation(id1, UserId);
-            currentreservation.roomdrp = (IEnumerable<RoomViewModel>)await this.vacationService.RoomViewDataAsync();
+            currentreservation.roomdrp = (IEnumerable<PlaceViewModel>)await this.vacationService.RoomViewDataAsync();
 
             if (this.ModelState.IsValid)
             {
@@ -316,7 +316,7 @@ namespace BookVacation.Controllers
                  bool editreservation = await vacationService
                                             .EditReservation(userid, reservationmodel);
 
-                reservationmodel.roomdrp = (IEnumerable<RoomViewModel>)await this.vacationService.RoomViewDataAsync();
+                reservationmodel.roomdrp = (IEnumerable<PlaceViewModel>)await this.vacationService.RoomViewDataAsync();
 
                 if (editreservation == false)
                 {
