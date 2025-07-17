@@ -25,5 +25,7 @@ namespace VacationAdd.Data.Models
 
         [ForeignKey(nameof(RoomID))]
         public Room Room { get; set; }
+
+        public int CountRooms { get; set; }
     }
 }

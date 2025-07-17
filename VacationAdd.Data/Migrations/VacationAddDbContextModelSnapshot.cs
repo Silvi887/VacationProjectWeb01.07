@@ -143,15 +143,15 @@ namespace VacationAdd.Data.Migrations
                         {
                             Id = "7699db7d-964f-4782-8209-d76562e0fece",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8b723a1a-a790-43bf-a779-b80a4fe2e859",
+                            ConcurrencyStamp = "bd37d757-115b-448b-94a2-07f84cf59ed2",
                             Email = "admin@horizons.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@HORIZONS.COM",
                             NormalizedUserName = "ADMIN@HORIZONS.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE0ytnbVehEk5gaSplSeBJlCFwLI0FaddesvVicVWJgAdGaoSxov+fBZFesvrcpjxA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECU1KhJgNemCAmrtBXxp4zA5F2hSWDg9FflvMA+E+fYy7pgdyJefORWHMw/MBHFkZA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1121de99-386a-410a-a223-ae369ac8f3cb",
+                            SecurityStamp = "49804968-231b-4a99-ae68-0d7bed9ef274",
                             TwoFactorEnabled = false,
                             UserName = "admin@horizons.com"
                         });
@@ -268,16 +268,20 @@ namespace VacationAdd.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("IdsRooms")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("NumberofRooms")
+                    b.Property<int>("RoomBookedRooms")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomCount")
+                    b.Property<int>("RoomCapacityCount")
                         .HasColumnType("int");
 
                     b.Property<int>("Stars")
@@ -301,6 +305,9 @@ namespace VacationAdd.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("HotelID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CountRooms")
                         .HasColumnType("int");
 
                     b.Property<int>("HotelRoomID")

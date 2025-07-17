@@ -209,7 +209,7 @@ namespace VacationApp.Services.Core
                     HotelName = h.HotelName,
                     Stars = h.Stars,
                     HotelInfo = h.HotelInfo,
-                    NumberofRooms = h.NumberofRooms,
+                    NumberofRooms = h.RoomCapacityCount,
                     ImageUrl = h.ImageUrl
                 }).ToListAsync();
 
@@ -268,7 +268,7 @@ namespace VacationApp.Services.Core
                     IdHotel= CurrentDetailshotel.IdHotel,
                     HotelName = CurrentDetailshotel.HotelName,
                     Stars = CurrentDetailshotel.Stars,
-                    NumberofRooms = CurrentDetailshotel.NumberofRooms,
+                    NumberofRooms = CurrentDetailshotel.RoomCapacityCount,
                     ImageUrl = CurrentDetailshotel.ImageUrl,
                     HotelInfo = CurrentDetailshotel.HotelInfo,
                     TownName = CurrentDetailshotel.Town.NameTown,

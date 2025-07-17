@@ -62,11 +62,14 @@ namespace VacationApp.Services.Core
 
                         HotelName = hotelmodel.HotelName,
                         Stars = hotelmodel.Stars,
-                        NumberofRooms = hotelmodel.NumberofRooms,
+                        RoomCapacityCount = hotelmodel.NumberofRooms,
+                        RoomBookedRooms = 0,
                         ImageUrl = hotelmodel.ImageUrl,
                         HotelInfo = hotelmodel.HotelInfo,
                         IDManager = user1.Id,
-                        TownId= int.Parse(hotelmodel.TownId)
+                        TownId= int.Parse(hotelmodel.TownId),
+                        AddressHotel= hotelmodel.AddressHotel,
+                        IdsRooms=""
 
                     };
                     this.dbcontext.Hotels.AddAsync(currenthotel);
@@ -101,7 +104,7 @@ namespace VacationApp.Services.Core
 
                 currenthotel.HotelName = edithotelmodel.HotelName;
                 currenthotel.Stars = edithotelmodel.Stars;
-                currenthotel.NumberofRooms = edithotelmodel.NumberofRooms;
+                currenthotel.RoomCapacityCount = edithotelmodel.NumberofRooms;
                 //currenthotel.IdHotel = int.Parse(edithotelmodel.Idhotel);
                 currenthotel.IDManager = edithotelmodel.IDManager;
 
@@ -131,11 +134,12 @@ namespace VacationApp.Services.Core
                 {
                     HotelName = currenthotel.HotelName,
                     Stars = currenthotel.Stars,
-                    NumberofRooms = currenthotel.NumberofRooms,
+                    NumberofRooms = currenthotel.RoomCapacityCount,
                     Idhotel = currenthotel.IdHotel.ToString(),
                     IDManager = currenthotel.IDManager,
                     ImageUrl= currenthotel.ImageUrl,
                     HotelInfo= currenthotel.HotelInfo
+                   
                    
 
                 };

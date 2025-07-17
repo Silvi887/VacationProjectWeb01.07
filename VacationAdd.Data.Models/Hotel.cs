@@ -29,15 +29,14 @@ namespace VacationAdd.Data.Models
         [Required]
         public int Stars { get; set; }
 
-        //[Required]
-        //public int IdRoom { get; set; }
+       
+        public string IdsRooms { get; set; } = "";
 
         [Required]
-        public int RoomCount { get; set; }
-
+        public int RoomCapacityCount { get; set; }
 
         [Required]
-        public int NumberofRooms { get; set; }
+        public int RoomBookedRooms { get; set; } = 0;
 
 
         public string? ImageUrl { get; set; }

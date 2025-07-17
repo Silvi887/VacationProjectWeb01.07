@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VacationAdd.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class VacationMigration : Migration
+    public partial class CapacityRoomHotel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,7 +56,12 @@ namespace VacationAdd.Data.Migrations
                 {
                     IdRoom = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NameRoom = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false)
+                    NameRoom = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    CapacityAdultsCount = table.Column<int>(type: "int", nullable: false),
+                    CapacityChildrenCount = table.Column<int>(type: "int", nullable: false),
+                    RoomSize = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    View = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Facilities = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -189,8 +194,11 @@ namespace VacationAdd.Data.Migrations
                     IdHotel = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HotelName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    AddressHotel = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Stars = table.Column<int>(type: "int", nullable: false),
-                    NumberofRooms = table.Column<int>(type: "int", nullable: false),
+                    IdsRooms = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoomCapacityCount = table.Column<int>(type: "int", nullable: false),
+                    RoomBookedRooms = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HotelInfo = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
                     IDManager = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -215,6 +223,32 @@ namespace VacationAdd.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HotelRooms",
+                columns: table => new
+                {
+                    HotelID = table.Column<int>(type: "int", nullable: false),
+                    RoomID = table.Column<int>(type: "int", nullable: false),
+                    HotelRoomID = table.Column<int>(type: "int", nullable: false),
+                    CountRooms = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotelRooms", x => new { x.RoomID, x.HotelID });
+                    table.ForeignKey(
+                        name: "FK_HotelRooms_Hotels_HotelID",
+                        column: x => x.HotelID,
+                        principalTable: "Hotels",
+                        principalColumn: "IdHotel",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HotelRooms_Rooms_RoomID",
+                        column: x => x.RoomID,
+                        principalTable: "Rooms",
+                        principalColumn: "IdRoom",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reservations",
                 columns: table => new
                 {
@@ -224,6 +258,7 @@ namespace VacationAdd.Data.Migrations
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AdultsCount = table.Column<int>(type: "int", nullable: false),
                     ChildrenCount = table.Column<int>(type: "int", nullable: false),
+                    BookedRoomsids = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GuestId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -285,7 +320,7 @@ namespace VacationAdd.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "7699db7d-964f-4782-8209-d76562e0fece", 0, "17739900-056b-4224-8145-81bbf903daa9", "admin@horizons.com", true, false, null, "ADMIN@HORIZONS.COM", "ADMIN@HORIZONS.COM", "AQAAAAIAAYagAAAAEPyjVtMZ/qQTvSPOuVKdlNDTY1eXY+ODCbeVjaQzUvvozfQZsxfrvtKZw0gdJYM9GQ==", null, false, "aa0b7fb1-a688-42fd-9301-1637c340b27c", false, "admin@horizons.com" });
+                values: new object[] { "7699db7d-964f-4782-8209-d76562e0fece", 0, "bd37d757-115b-448b-94a2-07f84cf59ed2", "admin@horizons.com", true, false, null, "ADMIN@HORIZONS.COM", "ADMIN@HORIZONS.COM", "AQAAAAIAAYagAAAAECU1KhJgNemCAmrtBXxp4zA5F2hSWDg9FflvMA+E+fYy7pgdyJefORWHMw/MBHFkZA==", null, false, "49804968-231b-4a99-ae68-0d7bed9ef274", false, "admin@horizons.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -325,6 +360,11 @@ namespace VacationAdd.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotelRooms_HotelID",
+                table: "HotelRooms",
+                column: "HotelID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Hotels_IDManager",
@@ -374,6 +414,9 @@ namespace VacationAdd.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "HotelRooms");
 
             migrationBuilder.DropTable(
                 name: "Reservations");

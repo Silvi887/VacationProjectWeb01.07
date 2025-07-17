@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vacation.GConstants;
+using VacationApp.ViewModels.Vacation;
 
 
 
@@ -30,6 +31,8 @@ namespace VacationApp.ViewModels.Hotel
         public int NumberofRooms { get; set; }
 
 
+        public string IdsRooms { get; set; } = "";
+
         public string? ImageUrl { get; set; }
 
 
@@ -45,10 +48,17 @@ namespace VacationApp.ViewModels.Hotel
         [Required]
         public string TownId { get; set; } = "";
 
+        [Required]
+        public string AddressHotel { get; set; } = null!;
+
+
         //[ForeignKey(nameof(IDManager))]
         //public virtual IdentityUser Manager { get; set; } = null!;
 
 
         public IEnumerable<TownModel> ListTowns { get; set; } = null!;
+
+
+        public IEnumerable<RoomViewModel> roomdrp = null!;
     }
 }

@@ -12,8 +12,8 @@ using VacationAdd.Data;
 namespace VacationAdd.Data.Migrations
 {
     [DbContext(typeof(VacationAddDbContext))]
-    [Migration("20250708064247_VacationMigration")]
-    partial class VacationMigration
+    [Migration("20250717124738_CapacityRoomHotel")]
+    partial class CapacityRoomHotel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,15 +146,15 @@ namespace VacationAdd.Data.Migrations
                         {
                             Id = "7699db7d-964f-4782-8209-d76562e0fece",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "17739900-056b-4224-8145-81bbf903daa9",
+                            ConcurrencyStamp = "bd37d757-115b-448b-94a2-07f84cf59ed2",
                             Email = "admin@horizons.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@HORIZONS.COM",
                             NormalizedUserName = "ADMIN@HORIZONS.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPyjVtMZ/qQTvSPOuVKdlNDTY1eXY+ODCbeVjaQzUvvozfQZsxfrvtKZw0gdJYM9GQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECU1KhJgNemCAmrtBXxp4zA5F2hSWDg9FflvMA+E+fYy7pgdyJefORWHMw/MBHFkZA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "aa0b7fb1-a688-42fd-9301-1637c340b27c",
+                            SecurityStamp = "49804968-231b-4a99-ae68-0d7bed9ef274",
                             TwoFactorEnabled = false,
                             UserName = "admin@horizons.com"
                         });
@@ -253,6 +253,10 @@ namespace VacationAdd.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdHotel"));
 
+                    b.Property<string>("AddressHotel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("HotelInfo")
                         .IsRequired()
                         .HasMaxLength(3000)
@@ -267,13 +271,20 @@ namespace VacationAdd.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("IdsRooms")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("NumberofRooms")
+                    b.Property<int>("RoomBookedRooms")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomCapacityCount")
                         .HasColumnType("int");
 
                     b.Property<int>("Stars")
@@ -291,6 +302,27 @@ namespace VacationAdd.Data.Migrations
                     b.ToTable("Hotels");
                 });
 
+            modelBuilder.Entity("VacationAdd.Data.Models.HotelRooms", b =>
+                {
+                    b.Property<int>("RoomID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HotelID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CountRooms")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HotelRoomID")
+                        .HasColumnType("int");
+
+                    b.HasKey("RoomID", "HotelID");
+
+                    b.HasIndex("HotelID");
+
+                    b.ToTable("HotelRooms");
+                });
+
             modelBuilder.Entity("VacationAdd.Data.Models.Reservation", b =>
                 {
                     b.Property<int>("IdReservation")
@@ -304,6 +336,10 @@ namespace VacationAdd.Data.Migrations
 
                     b.Property<int>("AdultsCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("BookedRoomsids")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ChildrenCount")
                         .HasColumnType("int");
@@ -366,10 +402,26 @@ namespace VacationAdd.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRoom"));
 
+                    b.Property<int>("CapacityAdultsCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CapacityChildrenCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Facilities")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NameRoom")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("RoomSize")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("View")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdRoom");
 
@@ -479,6 +531,25 @@ namespace VacationAdd.Data.Migrations
                     b.Navigation("Town");
                 });
 
+            modelBuilder.Entity("VacationAdd.Data.Models.HotelRooms", b =>
+                {
+                    b.HasOne("VacationAdd.Data.Models.Hotel", "Hotel")
+                        .WithMany("hotelRooms")
+                        .HasForeignKey("HotelID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VacationAdd.Data.Models.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+
+                    b.Navigation("Room");
+                });
+
             modelBuilder.Entity("VacationAdd.Data.Models.Reservation", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Guest")
@@ -494,7 +565,7 @@ namespace VacationAdd.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("VacationAdd.Data.Models.Room", "Room")
-                        .WithMany("Reservations")
+                        .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -530,11 +601,8 @@ namespace VacationAdd.Data.Migrations
                     b.Navigation("Reservations");
 
                     b.Navigation("UsersHotels");
-                });
 
-            modelBuilder.Entity("VacationAdd.Data.Models.Room", b =>
-                {
-                    b.Navigation("Reservations");
+                    b.Navigation("hotelRooms");
                 });
 
             modelBuilder.Entity("VacationAdd.Data.Models.Town", b =>
